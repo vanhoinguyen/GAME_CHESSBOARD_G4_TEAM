@@ -1,0 +1,18 @@
+C:\Users\Tee Max\AppData\Local\Temporary Projects\GAME_CARO_G4_TEAM\bin\Debug\GAME_CARO_G4_TEAM.exe.config
+C:\Users\Tee Max\AppData\Local\Temporary Projects\GAME_CARO_G4_TEAM\bin\Debug\GAME_CARO_G4_TEAM.exe
+C:\Users\Tee Max\AppData\Local\Temporary Projects\GAME_CARO_G4_TEAM\bin\Debug\GAME_CARO_G4_TEAM.pdb
+C:\Users\Tee Max\AppData\Local\Temporary Projects\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.csprojResolveAssemblyReference.cache
+C:\Users\Tee Max\AppData\Local\Temporary Projects\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.Form1.resources
+C:\Users\Tee Max\AppData\Local\Temporary Projects\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.Properties.Resources.resources
+C:\Users\Tee Max\AppData\Local\Temporary Projects\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.csproj.GenerateResource.Cache
+C:\Users\Tee Max\AppData\Local\Temporary Projects\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.exe
+C:\Users\Tee Max\AppData\Local\Temporary Projects\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.pdb
+C:\Users\Tee Max\Documents\Visual Studio 2015\Projects\GAME_CARO_G4_TEAM\GAME_CARO_G4_TEAM\bin\Debug\GAME_CARO_G4_TEAM.exe.config
+C:\Users\Tee Max\Documents\Visual Studio 2015\Projects\GAME_CARO_G4_TEAM\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.exe
+C:\Users\Tee Max\Documents\Visual Studio 2015\Projects\GAME_CARO_G4_TEAM\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.pdb
+C:\Users\Tee Max\Documents\Visual Studio 2015\Projects\GAME_CARO_G4_TEAM\GAME_CARO_G4_TEAM\bin\Debug\GAME_CARO_G4_TEAM.exe
+C:\Users\Tee Max\Documents\Visual Studio 2015\Projects\GAME_CARO_G4_TEAM\GAME_CARO_G4_TEAM\bin\Debug\GAME_CARO_G4_TEAM.pdb
+C:\Users\Tee Max\Documents\Visual Studio 2015\Projects\GAME_CARO_G4_TEAM\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.csprojResolveAssemblyReference.cache
+C:\Users\Tee Max\Documents\Visual Studio 2015\Projects\GAME_CARO_G4_TEAM\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.Properties.Resources.resources
+C:\Users\Tee Max\Documents\Visual Studio 2015\Projects\GAME_CARO_G4_TEAM\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.csproj.GenerateResource.Cache
+C:\Users\Tee Max\Documents\Visual Studio 2015\Projects\GAME_CARO_G4_TEAM\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.frmChessBoard.resources
