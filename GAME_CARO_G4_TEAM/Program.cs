@@ -19,7 +19,7 @@ namespace GAME_CARO_G4_TEAM
             pen = new Pen(Color.Black);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmChessBoard());
+            Application.Run(new Main());
         }
     }
 }

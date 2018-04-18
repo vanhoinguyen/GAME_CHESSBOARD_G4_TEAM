@@ -12,6 +12,25 @@ namespace GAME_CARO_G4_TEAM
         private int _NumLines;//số dòng
         private int _NumColumns;//số cột
 
+        public int NumLines
+        {
+            get
+            {
+                return _NumLines;
+            }
+
+        }
+
+        public int NumColumns
+        {
+            get
+            {
+                return _NumColumns;
+            }
+
+    
+        }
+
         public ChessBoard()
         {
             _NumColumns = 0;
@@ -25,14 +44,14 @@ namespace GAME_CARO_G4_TEAM
 
         public void DrawChessBoard(Graphics g)
         {
-            for(int i=0;i <= _NumColumns;i++)
+            for(int i=0;i <= NumColumns;i++)
             {
-                g.DrawLine(Program.pen, i*ChessPieces._Width, 0 , i*ChessPieces._Width, _NumLines*ChessPieces._Height);
+                g.DrawLine(Program.pen, i*ChessPieces._Width, 0 , i*ChessPieces._Width, NumLines*ChessPieces._Height);
             }
 
-            for (int j = 0; j <= _NumLines; j++)
+            for (int j = 0; j <= NumLines; j++)
             {
-                g.DrawLine(Program.pen, 0 , j*ChessPieces._Height, _NumColumns*ChessPieces._Width, j*ChessPieces._Height);
+                g.DrawLine(Program.pen, 0 , j*ChessPieces._Height, NumColumns*ChessPieces._Width, j*ChessPieces._Height);
             }
         }
     }
