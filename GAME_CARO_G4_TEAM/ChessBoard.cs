@@ -20,7 +20,6 @@ namespace GAME_CARO_G4_TEAM
             }
 
         }
-
         public int NumColumns
         {
             get
@@ -29,8 +28,7 @@ namespace GAME_CARO_G4_TEAM
             }
 
     
-        }
-
+        }  
         public ChessBoard()
         {
             _NumColumns = 0;
@@ -46,13 +44,29 @@ namespace GAME_CARO_G4_TEAM
         {
             for(int i=0;i <= NumColumns;i++)
             {
-                g.DrawLine(Program.pen, i*ChessPieces._Width, 0 , i*ChessPieces._Width, NumLines*ChessPieces._Height);
+                g.DrawLine(CaroChess.pen, i*ChessPieces._Width, 0 , i*ChessPieces._Width, NumLines*ChessPieces._Height);
             }
 
             for (int j = 0; j <= NumLines; j++)
             {
-                g.DrawLine(Program.pen, 0 , j*ChessPieces._Height, NumColumns*ChessPieces._Width, j*ChessPieces._Height);
+                g.DrawLine(CaroChess.pen, 0 , j*ChessPieces._Height, NumColumns*ChessPieces._Width, j*ChessPieces._Height);
             }
-        }
+        }   //Ve Ban Co
+          public void DrawO(Graphics g, Point point)
+        {           
+            g.DrawEllipse(CaroChess.penO, point.X + 5, point.Y + 5, ChessPieces._Width - 10, ChessPieces._Height - 10);           
+        } //Ve Quan O
+        public void DrawX(Graphics g, Point point)
+        {   
+            g.DrawLine(CaroChess.penX, point.X + 5, point.Y + 5, point.X + 20, point.Y + 20);
+            g.DrawLine(CaroChess.penX, point.X + 20, point.Y + 5, point.X + 5, point.Y + 20);          
+        }  // Ve Quan X
+
+        public void RemovePieces(Graphics g,Point p,SolidBrush sbr) 
+        {
+            g.FillRectangle(sbr, p.X+1, p.Y+1, ChessPieces._Width-2, ChessPieces._Height-2);
+        } //Xoa Quan Co
+
+        
     }
 }
