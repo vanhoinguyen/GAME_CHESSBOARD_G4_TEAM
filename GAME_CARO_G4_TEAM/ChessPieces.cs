@@ -70,8 +70,10 @@ namespace GAME_CARO_G4_TEAM
                 _Owned = value;
             }
         }
+        public ChessPieces()
+        { }
 
-    
+   
         public ChessPieces(int lines,int columns,Point location,int owned)
         {
             _Lines = lines;

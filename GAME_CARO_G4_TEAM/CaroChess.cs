@@ -29,7 +29,11 @@ namespace GAME_CARO_G4_TEAM
         private bool _SanSang;
         SolidBrush sbrWhite;
         private KETTHUC _KetThuc;
+        private int _CheDoChoi;
+
+
         public bool SanSang { get => _SanSang;  }
+        public int CheDoChoi { get => _CheDoChoi;  }
        
 
         public CaroChess()
@@ -111,9 +115,21 @@ namespace GAME_CARO_G4_TEAM
             Stack_CacNuocDaDi = new Stack<ChessPieces>();
             Stack_CacNuocUndo = new Stack<ChessPieces>();
             _LuotDi = 1;
+            _CheDoChoi = 1;
             InitializationArrayChessPieces();
             DrawChessBoard(g);
         }        //Chức năng chơi với người
+        public void StartPvsCom(Graphics g,TextBox PlayerName)
+        {
+            _SanSang = true;
+            Stack_CacNuocDaDi = new Stack<ChessPieces>();
+            Stack_CacNuocUndo = new Stack<ChessPieces>();
+            _LuotDi = 1;
+            _CheDoChoi = 2;
+            InitializationArrayChessPieces();
+            DrawChessBoard(g);
+            StartComputer(g,PlayerName);
+        }
         public void Undo(Graphics g)
         {
             if(Stack_CacNuocDaDi.Count!=0)
@@ -266,6 +282,421 @@ namespace GAME_CARO_G4_TEAM
 
             return false;
         }
+        #endregion
+
+
+        #region AI
+        private long[] MangDiemTanCong = new long[7] {0,3,24,192,1536,12288,98304};
+        private long[] MangDiemPhongThu = new long[7] { 0,1,9,81,729,6561,59049};
+
+
+
+        public void StartComputer(Graphics g, TextBox PlayerName)
+        {
+            if (Stack_CacNuocDaDi.Count == 0)
+            {
+                ChessPlay(_ChessBoard.NumLines / 2 * ChessPieces._Height + 1, _ChessBoard.NumColumns / 2 * ChessPieces._Width + 1, g, PlayerName);
+            }
+            else
+            {
+                ChessPieces chesspieces = TimKiemNuocDi();
+                ChessPlay(chesspieces.Location.X+1,chesspieces.Location.Y+1,g,PlayerName);
+
+            }
+        }
+
+        private ChessPieces TimKiemNuocDi()
+        {
+            ChessPieces result = new ChessPieces();
+            long PointMax = 0;
+            for(int i=0;i<_ChessBoard.NumLines;i++)
+            {
+                for(int j=0;j<_ChessBoard.NumColumns;j++)
+                {
+                    if(_ArrayChessPieces[i,j].Owned==0)
+                    {
+                        long DiemTanCong = DiemTanCong_DuyetDoc(i,j) + DiemTanCong_DuyetNgang(i, j) + DiemTanCong_DuyetCheoNguoc(i, j) + DiemTanCong_DuyetCheoXuoi(i, j);
+                        long DiemPhongNgu= DiemPhongNgu_DuyetDoc(i, j) + DiemPhongNgu_DuyetNgang(i, j) + DiemPhongNgu_DuyetCheoNguoc(i, j) + DiemPhongNgu_DuyetCheoXuoi(i, j);
+                        long DiemTam = DiemTanCong > DiemPhongNgu ? DiemTanCong : DiemPhongNgu;
+                        if(PointMax<DiemTam)
+                        {
+                            PointMax = DiemTam;
+                            result = new ChessPieces(_ArrayChessPieces[i, j].Lines, _ArrayChessPieces[i, j].Columns, _ArrayChessPieces[i, j].Location, _ArrayChessPieces[i, j].Owned);
+
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+        #region TanCong
+        private long DiemTanCong_DuyetDoc(int CurrLine,int CurrColumn)
+        {
+            long DiemTong = 0;
+            int SoQuanDich = 0;
+            int SoQuanTa = 0;
+            for(int dem=1;dem<6&&CurrLine+dem<_ChessBoard.NumLines;dem++)
+            {
+                if (_ArrayChessPieces[CurrLine + dem, CurrColumn].Owned == 1)
+                    SoQuanTa++;
+                else if(_ArrayChessPieces[CurrLine + dem, CurrColumn].Owned == 2)
+                {
+                    SoQuanDich++;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            for (int dem = 0; dem < 6 && CurrLine - dem >= 0; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine - dem, CurrColumn].Owned == 1)
+                    SoQuanTa++;
+                else if (_ArrayChessPieces[CurrLine - dem, CurrColumn].Owned == 2)
+                {
+                    SoQuanDich++;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            if (SoQuanDich == 2)
+                return 0;
+            DiemTong -= MangDiemPhongThu[SoQuanDich+1];
+            DiemTong += MangDiemTanCong[SoQuanTa];
+            return DiemTong;
+        }
+        private long DiemTanCong_DuyetNgang(int CurrLine, int CurrColumn)
+        {
+            long DiemTong = 0;
+            int SoQuanDich = 0;
+            int SoQuanTa = 0;
+            for (int dem = 0; dem < 6 && CurrColumn + dem < _ChessBoard.NumColumns; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine , CurrColumn + dem].Owned == 1)
+                    SoQuanTa++;
+                else if (_ArrayChessPieces[CurrLine , CurrColumn + dem].Owned == 2)
+                {
+                    SoQuanDich++;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            for (int dem = 0; dem < 6 && CurrColumn - dem >= 0; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine , CurrColumn - dem].Owned == 1)
+                    SoQuanTa++;
+                else if (_ArrayChessPieces[CurrLine , CurrColumn - dem].Owned == 2)
+                {
+                    SoQuanDich++;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            if (SoQuanDich == 2)
+                return 0;
+            DiemTong -= MangDiemPhongThu[SoQuanDich + 1];
+            DiemTong += MangDiemTanCong[SoQuanTa];
+            return DiemTong;
+        }
+        private long DiemTanCong_DuyetCheoNguoc(int CurrLine, int CurrColumn)
+        {
+            long DiemTong = 0;
+            int SoQuanDich = 0;
+            int SoQuanTa = 0;
+            for (int dem = 0; dem < 6 && CurrColumn + dem < _ChessBoard.NumColumns&&CurrLine-dem>=0; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine-dem, CurrColumn + dem].Owned == 1)
+                    SoQuanTa++;
+                else if (_ArrayChessPieces[CurrLine-dem, CurrColumn + dem].Owned == 2)
+                {
+                    SoQuanDich++;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            for (int dem = 0; dem < 6 && CurrColumn - dem >= 0&&CurrLine+dem<_ChessBoard.NumLines; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine+dem, CurrColumn - dem].Owned == 1)
+                    SoQuanTa++;
+                else if (_ArrayChessPieces[CurrLine+dem, CurrColumn - dem].Owned == 2)
+                {
+                    SoQuanDich++;   
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            if (SoQuanDich == 2)
+                return 0;
+            DiemTong -= MangDiemPhongThu[SoQuanDich + 1];
+            DiemTong += MangDiemTanCong[SoQuanTa];
+            return DiemTong;
+        }
+        private long DiemTanCong_DuyetCheoXuoi(int CurrLine, int CurrColumn)
+        {
+            long DiemTong = 0;
+            int SoQuanDich = 0;
+            int SoQuanTa = 0;
+            for (int dem = 0; dem < 6 && CurrColumn + dem < _ChessBoard.NumColumns && CurrLine + dem <= _ChessBoard.NumLines; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine + dem, CurrColumn + dem].Owned == 1)
+                    SoQuanTa++;
+                else if (_ArrayChessPieces[CurrLine + dem, CurrColumn + dem].Owned == 2)
+                {
+                    SoQuanDich++;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            for (int dem = 0; dem < 6 && CurrColumn - dem >= 0 && CurrLine - dem >= 0; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine - dem, CurrColumn - dem].Owned == 1)
+                    SoQuanTa++;
+                else if (_ArrayChessPieces[CurrLine - dem, CurrColumn - dem].Owned == 2)
+                {
+                    SoQuanDich++;
+                    break;
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            if (SoQuanDich == 2)
+                return 0;
+            DiemTong -= MangDiemPhongThu[SoQuanDich + 1];
+            DiemTong += MangDiemTanCong[SoQuanTa];
+            return DiemTong;
+        }
+        #endregion
+
+        #region PhongNgu
+        private long DiemPhongNgu_DuyetDoc(int CurrLine, int CurrColumn)
+        {
+            long DiemTong = 0;
+            int SoQuanDich = 0;
+            int SoQuanTa = 0;
+            for (int dem = 0; dem < 6 && CurrLine + dem < _ChessBoard.NumLines; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine + dem, CurrColumn].Owned == 1)
+                {
+                    SoQuanTa++;
+                    break;
+                }
+                else if (_ArrayChessPieces[CurrLine + dem, CurrColumn].Owned == 2)
+                {
+                    SoQuanDich++;
+                   
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            for (int dem = 0; dem < 6 && CurrLine - dem >= 0; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine - dem, CurrColumn].Owned == 1)
+                {
+                    SoQuanTa++;
+                    break;
+                }
+                else if (_ArrayChessPieces[CurrLine - dem, CurrColumn].Owned == 2)
+                {
+                    SoQuanDich++;
+                   
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            if (SoQuanTa == 2)
+                return 0;
+            DiemTong += MangDiemPhongThu[SoQuanDich ];
+           
+            return DiemTong;
+        }
+        private long DiemPhongNgu_DuyetNgang(int CurrLine, int CurrColumn)
+        {
+            long DiemTong = 0;
+            int SoQuanDich = 0;
+            int SoQuanTa = 0;
+            for (int dem = 0; dem < 6 && CurrColumn + dem < _ChessBoard.NumColumns; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine, CurrColumn + dem].Owned == 1)
+                {
+                    SoQuanTa++;
+                    break;
+                }
+                else if (_ArrayChessPieces[CurrLine, CurrColumn + dem].Owned == 2)
+                {
+                    SoQuanDich++;
+                    
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            for (int dem = 0; dem < 6 && CurrColumn - dem >= 0; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine, CurrColumn - dem].Owned == 1)
+                {
+                    SoQuanTa++;
+                    break;
+                }
+                else if (_ArrayChessPieces[CurrLine, CurrColumn - dem].Owned == 2)
+                {
+                    SoQuanDich++;
+                   
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            if (SoQuanTa == 2)
+                return 0;
+            DiemTong += MangDiemPhongThu[SoQuanDich];
+            
+            return DiemTong;
+        }
+        private long DiemPhongNgu_DuyetCheoNguoc(int CurrLine, int CurrColumn)
+        {
+            long DiemTong = 0;
+            int SoQuanDich = 0;
+            int SoQuanTa = 0;
+            for (int dem = 0; dem < 6 && CurrColumn + dem < _ChessBoard.NumColumns && CurrLine - dem >= 0; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine - dem, CurrColumn + dem].Owned == 1)
+                {
+                    SoQuanTa++;
+                    break;
+                }
+                else if (_ArrayChessPieces[CurrLine - dem, CurrColumn + dem].Owned == 2)
+                {
+                    SoQuanDich++;
+                 
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            for (int dem = 0; dem < 6 && CurrColumn - dem >= 0 && CurrLine + dem < _ChessBoard.NumLines; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine + dem, CurrColumn - dem].Owned == 1)
+                {
+                    SoQuanTa++;
+                    break;
+                }
+                else if (_ArrayChessPieces[CurrLine + dem, CurrColumn - dem].Owned == 2)
+                {
+                    SoQuanDich++;
+                  
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            if (SoQuanTa == 2)
+                return 0;
+           
+            DiemTong += MangDiemPhongThu[SoQuanTa];
+            return DiemTong;
+        }
+        private long DiemPhongNgu_DuyetCheoXuoi(int CurrLine, int CurrColumn)
+        {
+            long DiemTong = 0;
+            int SoQuanDich = 0;
+            int SoQuanTa = 0;
+            for (int dem = 0; dem < 6 && CurrColumn + dem < _ChessBoard.NumColumns && CurrLine + dem <= _ChessBoard.NumLines; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine + dem, CurrColumn + dem].Owned == 1)
+                {
+                    SoQuanTa++;
+                    break;
+                }
+                else if (_ArrayChessPieces[CurrLine + dem, CurrColumn + dem].Owned == 2)
+                {
+                    SoQuanDich++;
+
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+
+            for (int dem = 0; dem < 6 && CurrColumn - dem >= 0 && CurrLine - dem >= 0; dem++)
+            {
+                if (_ArrayChessPieces[CurrLine - dem, CurrColumn - dem].Owned == 1)
+                {
+                    SoQuanTa++;
+                    break;
+                }
+                else if (_ArrayChessPieces[CurrLine - dem, CurrColumn - dem].Owned == 2)
+                {
+                    SoQuanDich++;
+                   
+                }
+                else
+                {
+                    break;
+                }
+
+            }
+            if (SoQuanDich == 2)
+                return 0;
+
+            DiemTong += MangDiemPhongThu[SoQuanTa];
+            return DiemTong;
+        }
+        #endregion
+
+
         #endregion
 
 
