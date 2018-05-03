@@ -22,14 +22,14 @@ namespace GAME_CARO_G4_TEAM
             
             InitializeComponent();
             carochess = new CaroChess();
-            carochess.InitializationArrayChessPieces(); //Khởi tạo mảng ô cờ
+            carochess.KhoiTaoMangOCo(); //Khởi tạo mảng ô cờ
             grs = pnChessBoard.CreateGraphics();   // Tạo mới Graphics
         }
 
         private void pnChessBoard_Paint(object sender, PaintEventArgs e)
         {
-            carochess.DrawChessBoard(grs); //Vẽ bàn cờ
-            carochess.ReDrawChessPieces(grs);  //Vẽ lại quân cờ
+            carochess.VeBanCo(grs); //Vẽ bàn cờ
+            carochess.VeLaiOCo(grs);  //Vẽ lại quân cờ
             txtPlayerName.Text = "";
         }
 
@@ -38,7 +38,7 @@ namespace GAME_CARO_G4_TEAM
             
             if (!carochess.SanSang)
                return;
-            carochess.ChessPlay(e.X, e.Y, grs,txtPlayerName);
+            carochess.DanhCo(e.X, e.Y, grs,txtPlayerName);
 
             if (carochess.KiemTraChienThang())
                 carochess.KetThucTroChoi();

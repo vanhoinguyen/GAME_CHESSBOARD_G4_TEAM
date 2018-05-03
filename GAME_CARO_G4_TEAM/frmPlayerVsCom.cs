@@ -24,8 +24,8 @@ namespace GAME_CARO_G4_TEAM
         private void pnChessBoard_Paint(object sender, PaintEventArgs e)
         {
             
-            carochess.DrawChessBoard(grs); //Vẽ bàn cờ
-            carochess.ReDrawChessPieces(grs);  //Vẽ lại quân cờ
+            carochess.VeBanCo(grs); //Vẽ bàn cờ
+            carochess.VeLaiOCo(grs);  //Vẽ lại quân cờ
             txtPlayerName.Text = "";
         }
 
@@ -40,7 +40,7 @@ namespace GAME_CARO_G4_TEAM
         {
             if (!carochess.SanSang)
                 return;
-           if( carochess.ChessPlay(e.X, e.Y, grs, txtPlayerName))
+           if( carochess.DanhCo(e.X, e.Y, grs, txtPlayerName))
             {
                 if (carochess.KiemTraChienThang())
                     carochess.KetThucTroChoi();
@@ -48,15 +48,13 @@ namespace GAME_CARO_G4_TEAM
                 {
                     if (carochess.CheDoChoi == 2)
                     {
-                        carochess.StartComputer(grs, txtPlayerName);
+                        carochess.KhoiDongMay(grs,txtPlayerName);
                         if (carochess.KiemTraChienThang())
                             carochess.KetThucTroChoi();
                     }
                 }
             }
 
-          
-           
 
         }
     }

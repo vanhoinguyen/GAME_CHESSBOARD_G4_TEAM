@@ -29,15 +29,14 @@
         private void InitializeComponent()
         {
             this.panel3 = new System.Windows.Forms.Panel();
-            this.ptbMark = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnPlay = new System.Windows.Forms.Button();
             this.txtPlayerName = new System.Windows.Forms.TextBox();
             this.pnChessBoard = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnNewPlay = new System.Windows.Forms.Button();
-            this.btnPlay = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chơiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,9 +45,7 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbMark)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -59,8 +56,6 @@
             // 
             this.panel3.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.panel3.Controls.Add(this.button1);
-            this.panel3.Controls.Add(this.ptbMark);
-            this.panel3.Controls.Add(this.btnNewPlay);
             this.panel3.Controls.Add(this.btnPlay);
             this.panel3.Controls.Add(this.txtPlayerName);
             this.panel3.Location = new System.Drawing.Point(635, 248);
@@ -68,18 +63,36 @@
             this.panel3.Size = new System.Drawing.Size(298, 184);
             this.panel3.TabIndex = 10;
             // 
-            // ptbMark
+            // button1
             // 
-            this.ptbMark.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ptbMark.Location = new System.Drawing.Point(166, -1);
-            this.ptbMark.Name = "ptbMark";
-            this.ptbMark.Size = new System.Drawing.Size(105, 107);
-            this.ptbMark.TabIndex = 5;
-            this.ptbMark.TabStop = false;
+            this.button1.BackColor = System.Drawing.Color.Silver;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(168, 121);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(119, 60);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Thoát Game";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // btnPlay
+            // 
+            this.btnPlay.BackColor = System.Drawing.Color.Silver;
+            this.btnPlay.FlatAppearance.BorderSize = 0;
+            this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPlay.Location = new System.Drawing.Point(166, 55);
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(121, 60);
+            this.btnPlay.TabIndex = 9;
+            this.btnPlay.Text = "Chơi";
+            this.btnPlay.UseVisualStyleBackColor = false;
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
             // txtPlayerName
             // 
-            this.txtPlayerName.Location = new System.Drawing.Point(3, 3);
+            this.txtPlayerName.Location = new System.Drawing.Point(3, 55);
             this.txtPlayerName.Name = "txtPlayerName";
             this.txtPlayerName.ReadOnly = true;
             this.txtPlayerName.Size = new System.Drawing.Size(157, 20);
@@ -108,6 +121,19 @@
             this.panel4.Size = new System.Drawing.Size(274, 118);
             this.panel4.TabIndex = 11;
             // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.label1.Font = new System.Drawing.Font("Chiller", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(274, 118);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "5 in a line to WIN";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // panel1
             // 
             this.panel1.Controls.Add(this.pictureBox1);
@@ -125,46 +151,6 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.Silver;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(166, 112);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(108, 60);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "Thoát Game";
-            this.button1.UseVisualStyleBackColor = false;
-            // 
-            // btnNewPlay
-            // 
-            this.btnNewPlay.BackColor = System.Drawing.Color.Silver;
-            this.btnNewPlay.FlatAppearance.BorderSize = 0;
-            this.btnNewPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNewPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewPlay.Location = new System.Drawing.Point(85, 112);
-            this.btnNewPlay.Name = "btnNewPlay";
-            this.btnNewPlay.Size = new System.Drawing.Size(75, 60);
-            this.btnNewPlay.TabIndex = 10;
-            this.btnNewPlay.Text = "Chơi mới";
-            this.btnNewPlay.UseVisualStyleBackColor = false;
-            // 
-            // btnPlay
-            // 
-            this.btnPlay.BackColor = System.Drawing.Color.Silver;
-            this.btnPlay.FlatAppearance.BorderSize = 0;
-            this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlay.Location = new System.Drawing.Point(3, 112);
-            this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(75, 60);
-            this.btnPlay.TabIndex = 9;
-            this.btnPlay.Text = "Chơi";
-            this.btnPlay.UseVisualStyleBackColor = false;
-            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
             // 
             // menuStrip1
             // 
@@ -226,19 +212,6 @@
             this.redoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.label1.Font = new System.Drawing.Font("Chiller", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(274, 118);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "5 in a line to WIN";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // frmPlayerVsCom
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -254,7 +227,6 @@
             this.Text = "Chơi với máy";
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbMark)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -268,14 +240,12 @@
         #endregion
 
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.PictureBox ptbMark;
         private System.Windows.Forms.TextBox txtPlayerName;
         private System.Windows.Forms.Panel pnChessBoard;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnNewPlay;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;

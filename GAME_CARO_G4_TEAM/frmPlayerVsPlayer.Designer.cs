@@ -30,7 +30,6 @@
         {
             this.panel3 = new System.Windows.Forms.Panel();
             this.btnQuit = new System.Windows.Forms.Button();
-            this.btnNewPlay = new System.Windows.Forms.Button();
             this.btnPlay = new System.Windows.Forms.Button();
             this.prbCoolDown = new System.Windows.Forms.ProgressBar();
             this.txtID = new System.Windows.Forms.TextBox();
@@ -42,6 +41,7 @@
             this.btnSend = new System.Windows.Forms.Button();
             this.rtbChat = new System.Windows.Forms.RichTextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.chơiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,23 +50,18 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ptbMark = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbMark)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel3
             // 
             this.panel3.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.panel3.Controls.Add(this.btnQuit);
-            this.panel3.Controls.Add(this.btnNewPlay);
             this.panel3.Controls.Add(this.btnPlay);
-            this.panel3.Controls.Add(this.ptbMark);
             this.panel3.Controls.Add(this.prbCoolDown);
             this.panel3.Controls.Add(this.txtID);
             this.panel3.Controls.Add(this.txtPlayerName);
@@ -82,25 +77,12 @@
             this.btnQuit.FlatAppearance.BorderSize = 0;
             this.btnQuit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnQuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnQuit.Location = new System.Drawing.Point(166, 113);
+            this.btnQuit.Location = new System.Drawing.Point(166, 108);
             this.btnQuit.Name = "btnQuit";
-            this.btnQuit.Size = new System.Drawing.Size(108, 60);
+            this.btnQuit.Size = new System.Drawing.Size(105, 29);
             this.btnQuit.TabIndex = 8;
             this.btnQuit.Text = "Thoát Game";
             this.btnQuit.UseVisualStyleBackColor = false;
-            // 
-            // btnNewPlay
-            // 
-            this.btnNewPlay.BackColor = System.Drawing.Color.Silver;
-            this.btnNewPlay.FlatAppearance.BorderSize = 0;
-            this.btnNewPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNewPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNewPlay.Location = new System.Drawing.Point(85, 113);
-            this.btnNewPlay.Name = "btnNewPlay";
-            this.btnNewPlay.Size = new System.Drawing.Size(75, 60);
-            this.btnNewPlay.TabIndex = 7;
-            this.btnNewPlay.Text = "Chơi mới";
-            this.btnNewPlay.UseVisualStyleBackColor = false;
             // 
             // btnPlay
             // 
@@ -108,9 +90,9 @@
             this.btnPlay.FlatAppearance.BorderSize = 0;
             this.btnPlay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlay.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPlay.Location = new System.Drawing.Point(3, 113);
+            this.btnPlay.Location = new System.Drawing.Point(166, 41);
             this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(75, 60);
+            this.btnPlay.Size = new System.Drawing.Size(105, 32);
             this.btnPlay.TabIndex = 6;
             this.btnPlay.Text = "Chơi";
             this.btnPlay.UseVisualStyleBackColor = false;
@@ -118,14 +100,14 @@
             // 
             // prbCoolDown
             // 
-            this.prbCoolDown.Location = new System.Drawing.Point(3, 29);
+            this.prbCoolDown.Location = new System.Drawing.Point(4, 69);
             this.prbCoolDown.Name = "prbCoolDown";
-            this.prbCoolDown.Size = new System.Drawing.Size(157, 23);
+            this.prbCoolDown.Size = new System.Drawing.Size(157, 42);
             this.prbCoolDown.TabIndex = 4;
             // 
             // txtID
             // 
-            this.txtID.Location = new System.Drawing.Point(3, 58);
+            this.txtID.Location = new System.Drawing.Point(3, 117);
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(157, 20);
             this.txtID.TabIndex = 3;
@@ -133,11 +115,12 @@
             // 
             // txtPlayerName
             // 
-            this.txtPlayerName.Location = new System.Drawing.Point(3, 3);
+            this.txtPlayerName.Location = new System.Drawing.Point(4, 41);
             this.txtPlayerName.Name = "txtPlayerName";
             this.txtPlayerName.ReadOnly = true;
             this.txtPlayerName.Size = new System.Drawing.Size(157, 20);
             this.txtPlayerName.TabIndex = 2;
+            this.txtPlayerName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btnLan
             // 
@@ -145,9 +128,9 @@
             this.btnLan.FlatAppearance.BorderSize = 0;
             this.btnLan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLan.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLan.Location = new System.Drawing.Point(3, 84);
+            this.btnLan.Location = new System.Drawing.Point(166, 79);
             this.btnLan.Name = "btnLan";
-            this.btnLan.Size = new System.Drawing.Size(157, 23);
+            this.btnLan.Size = new System.Drawing.Size(105, 23);
             this.btnLan.TabIndex = 0;
             this.btnLan.Text = "LAN";
             this.btnLan.UseVisualStyleBackColor = false;
@@ -213,6 +196,16 @@
             this.panel1.Size = new System.Drawing.Size(271, 190);
             this.panel1.TabIndex = 8;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::GAME_CARO_G4_TEAM.Properties.Resources.avatar2;
+            this.pictureBox1.Location = new System.Drawing.Point(42, 3);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(199, 184);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -275,26 +268,6 @@
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
             // 
-            // ptbMark
-            // 
-            this.ptbMark.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ptbMark.Location = new System.Drawing.Point(166, 0);
-            this.ptbMark.Name = "ptbMark";
-            this.ptbMark.Size = new System.Drawing.Size(108, 107);
-            this.ptbMark.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.ptbMark.TabIndex = 5;
-            this.ptbMark.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::GAME_CARO_G4_TEAM.Properties.Resources.avatar2;
-            this.pictureBox1.Location = new System.Drawing.Point(42, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(199, 184);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // frmPlayerVsPlayer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -315,10 +288,9 @@
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ptbMark)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -327,7 +299,6 @@
         #endregion
 
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.PictureBox ptbMark;
         private System.Windows.Forms.ProgressBar prbCoolDown;
         private System.Windows.Forms.TextBox txtID;
         private System.Windows.Forms.TextBox txtPlayerName;
@@ -339,7 +310,6 @@
         private System.Windows.Forms.RichTextBox rtbChat;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button btnNewPlay;
         private System.Windows.Forms.Button btnPlay;
         private System.Windows.Forms.Button btnQuit;
         private System.Windows.Forms.MenuStrip menuStrip1;
