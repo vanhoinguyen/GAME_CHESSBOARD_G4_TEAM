@@ -57,5 +57,15 @@ namespace GAME_CARO_G4_TEAM
 
 
         }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            carochess.Undo(grs);
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            carochess.Redo(grs);
+        }
     }
 }
