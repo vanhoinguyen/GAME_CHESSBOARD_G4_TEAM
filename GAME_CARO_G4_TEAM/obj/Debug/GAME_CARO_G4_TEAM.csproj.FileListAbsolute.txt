@@ -38,3 +38,4 @@ C:\Users\Tee Max\Desktop\video Caro\GAME_CHESSBOARD_G4_TEAM-master\GAME_CARO_G4_
 C:\Users\Tee Max\Desktop\video Caro\GAME_CHESSBOARD_G4_TEAM-master\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.csproj.GenerateResource.Cache
 C:\Users\Tee Max\Desktop\video Caro\GAME_CHESSBOARD_G4_TEAM-master\GAME_CARO_G4_TEAM\bin\Debug\GAME_CARO_G4_TEAM.exe
 C:\Users\Tee Max\Desktop\video Caro\GAME_CHESSBOARD_G4_TEAM-master\GAME_CARO_G4_TEAM\bin\Debug\GAME_CARO_G4_TEAM.pdb
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Debug\GAME_CARO_G4_TEAM.csproj.CoreCompileInputs.cache

@@ -67,5 +67,61 @@ namespace GAME_CARO_G4_TEAM
         {
             carochess.Redo(grs);
         }
+
+        private void màuNềnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlgColor = new ColorDialog();
+            dlgColor.FullOpen = true;
+            if (dlgColor.ShowDialog() == DialogResult.OK)
+                this.BackColor = dlgColor.Color;
+        }
+
+        private void màuBànCờToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlgColor = new ColorDialog();
+            dlgColor.FullOpen = true;
+            if (dlgColor.ShowDialog() == DialogResult.OK)
+                pnChessBoard.BackColor = dlgColor.Color;
+        }
+
+
+
+        private void màuQuânXToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlgColor = new ColorDialog();
+            dlgColor.FullOpen = true;
+            if (dlgColor.ShowDialog() == DialogResult.OK)
+            {
+                CaroChess.penX = new Pen(dlgColor.Color, 2f);
+                carochess.VeBanCo(grs);
+                carochess.VeLaiOCo(grs);
+            }
+        }
+
+        private void màuQuânOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlgColor = new ColorDialog();
+            dlgColor.FullOpen = true;
+            if (dlgColor.ShowDialog() == DialogResult.OK)
+            {
+                CaroChess.penO = new Pen(dlgColor.Color, 2f);
+                carochess.VeBanCo(grs);
+                carochess.VeLaiOCo(grs);
+            }
+        }
+        
+        private void màuViềnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            ColorDialog dlgColor = new ColorDialog();
+            dlgColor.FullOpen = true;
+            if (dlgColor.ShowDialog() == DialogResult.OK)
+            {
+                CaroChess.pen = new Pen(dlgColor.Color);
+                carochess.VeBanCo(grs);
+            }
+        }
+
+
     }
 }

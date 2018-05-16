@@ -45,6 +45,11 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.màuNềnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.màuBànCờToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.màuQuânXToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.màuViềnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.màuQuânOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -195,7 +200,12 @@
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoToolStripMenuItem,
-            this.redoToolStripMenuItem});
+            this.redoToolStripMenuItem,
+            this.màuNềnToolStripMenuItem,
+            this.màuBànCờToolStripMenuItem,
+            this.màuQuânOToolStripMenuItem,
+            this.màuQuânXToolStripMenuItem,
+            this.màuViềnToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -203,16 +213,51 @@
             // undoToolStripMenuItem
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
             // 
             // redoToolStripMenuItem
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
+            // 
+            // màuNềnToolStripMenuItem
+            // 
+            this.màuNềnToolStripMenuItem.Name = "màuNềnToolStripMenuItem";
+            this.màuNềnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.màuNềnToolStripMenuItem.Text = "Màu nền";
+            this.màuNềnToolStripMenuItem.Click += new System.EventHandler(this.màuNềnToolStripMenuItem_Click);
+            // 
+            // màuBànCờToolStripMenuItem
+            // 
+            this.màuBànCờToolStripMenuItem.Name = "màuBànCờToolStripMenuItem";
+            this.màuBànCờToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.màuBànCờToolStripMenuItem.Text = "Màu bàn cờ";
+            this.màuBànCờToolStripMenuItem.Click += new System.EventHandler(this.màuBànCờToolStripMenuItem_Click);
+            // 
+            // màuQuânXToolStripMenuItem
+            // 
+            this.màuQuânXToolStripMenuItem.Name = "màuQuânXToolStripMenuItem";
+            this.màuQuânXToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.màuQuânXToolStripMenuItem.Text = "Màu quân X";
+            this.màuQuânXToolStripMenuItem.Click += new System.EventHandler(this.màuQuânXToolStripMenuItem_Click);
+            // 
+            // màuViềnToolStripMenuItem
+            // 
+            this.màuViềnToolStripMenuItem.Name = "màuViềnToolStripMenuItem";
+            this.màuViềnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.màuViềnToolStripMenuItem.Text = "Màu viền";
+            this.màuViềnToolStripMenuItem.Click += new System.EventHandler(this.màuViềnToolStripMenuItem_Click);
+            // 
+            // màuQuânOToolStripMenuItem
+            // 
+            this.màuQuânOToolStripMenuItem.Name = "màuQuânOToolStripMenuItem";
+            this.màuQuânOToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.màuQuânOToolStripMenuItem.Text = "Màu quân O";
+            this.màuQuânOToolStripMenuItem.Click += new System.EventHandler(this.màuQuânOToolStripMenuItem_Click);
             // 
             // frmPlayerVsCom
             // 
@@ -258,5 +303,10 @@
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem màuNềnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem màuBànCờToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem màuQuânXToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem màuViềnToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem màuQuânOToolStripMenuItem;
     }
 }

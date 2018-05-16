@@ -15,7 +15,7 @@ namespace GAME_CARO_G4_TEAM
         Player2,
         COM
     }
-    class CaroChess 
+   class CaroChess 
     {
        
         public static Pen pen;
