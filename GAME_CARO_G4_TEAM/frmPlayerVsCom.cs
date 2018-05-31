@@ -75,7 +75,7 @@ namespace GAME_CARO_G4_TEAM
         #region UndoReDo
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            carochess.Undo(grs);
+            carochess.Undo(grs,pnChessBoard.BackColor);
         }
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -85,7 +85,7 @@ namespace GAME_CARO_G4_TEAM
 
         private void btnUndo_Click(object sender, EventArgs e)
         {
-            carochess.Undo(grs);
+            carochess.Undo(grs, pnChessBoard.BackColor);
         }
 
         private void btnRedo_Click(object sender, EventArgs e)

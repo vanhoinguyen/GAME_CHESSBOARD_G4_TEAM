@@ -8,15 +8,10 @@ using System.Windows.Forms;
 
 namespace GAME_CARO_G4_TEAM
 {
-    public enum KETTHUC
-    {
-        HoaCo,
-        Player1,
-        Player2,
-        COM
-    }
+    
     class CaroChess 
-    {       
+    {
+        #region Phương thức Khởi Tạo
         public static Pen pen;
         public static Pen penX;
         public static Pen penO;
@@ -27,45 +22,66 @@ namespace GAME_CARO_G4_TEAM
         private int _LuotDi;
         private bool _SanSang;
         SolidBrush sbrWhite;
-        private KETTHUC _KetThuc;
+        private int _KetThuc = -1;
         private int _CheDoChoi;
-        
+        public int P1;
+        public int P2;
+        public int C;
+        public int P;     
         public bool SanSang { get { return _SanSang; } }
         public int CheDoChoi { get { return _CheDoChoi; } }
-
         internal OCo[,] MangOCo { get => _MangOCo; set => _MangOCo = value; }
 
         public CaroChess()
         {
             pen = new Pen(Color.Black);
-            penX = new Pen(Color.Blue,3f);
-            penO = new Pen(Color.Red,3f);
+            penX = new Pen(Color.Blue, 3f);
+            penO = new Pen(Color.Red, 3f);
             Stack_CacNuocDaDi = new Stack<OCo>();
             Stack_CacNuocUndo = new Stack<OCo>();
             _LuotDi = 1;
             sbrWhite = new SolidBrush(Color.White);
             _BanCo = new BanCo(24, 21);
             MangOCo = new OCo[_BanCo.NumDong, _BanCo.NumCot];
+            P1 = P2 = P = C =0;
         }
+
+        public void KhoiTaoMangOCo()
+        {
+            for (int i = 0; i < _BanCo.NumDong; i++)
+            {
+                for (int j = 0; j < _BanCo.NumCot; j++)
+                {
+                    MangOCo[i, j] = new OCo(i, j, new Point(j * OCo._ChieuRong, i * OCo._ChieuCao), 0);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Vẽ bàn cờ, Vẽ lại quân cờ, Đánh cờ , Đánh cờ ONLAN
 
         public void VeBanCo(Graphics g)
         {
             _BanCo.VeBanCo(g);
-        }  // Vẽ Bàn Cờ
+        }
 
-        public void KhoiTaoMangOCo()
+        public void VeLaiOCo(Graphics g)
         {
-            for(int i=0;i<_BanCo.NumDong;i++)
+            foreach (OCo oco in Stack_CacNuocDaDi)
             {
-                for(int j=0;j<_BanCo.NumCot;j++)
+                if (oco.SoHuu == 1)
+                    _BanCo.VeX(g, oco.ViTri);
+                else if (oco.SoHuu == 2)
                 {
-                    MangOCo[i, j] = new OCo(i,j,new Point(j*OCo._ChieuRong,i*OCo._ChieuCao),0);
+                    _BanCo.VeO(g, oco.ViTri);
                 }
             }
-        }     // Khởi tạo mảng quân cờ
+        }
 
         public bool DanhCo(int MouseX, int MouseY, Graphics g, TextBox playername)
         {
+
             if (MouseX % OCo._ChieuRong == 0 || MouseY % OCo._ChieuCao == 0)
                 return false;
             int Cot = MouseX / OCo._ChieuRong;
@@ -74,12 +90,12 @@ namespace GAME_CARO_G4_TEAM
             if (MangOCo[Dong, Cot].SoHuu != 0)
                 return false;
 
-            switch(_LuotDi)
+            switch (_LuotDi)
             {
                 case 1:
                     MangOCo[Dong, Cot].SoHuu = 1;
-                    if(_CheDoChoi == 1)
-                        playername.Text= "Người chơi 1";
+                    if (_CheDoChoi == 1)
+                        playername.Text = "Người chơi 1";
                     _BanCo.VeX(g, MangOCo[Dong, Cot].ViTri);
                     _LuotDi = 2;
                     break;
@@ -98,7 +114,9 @@ namespace GAME_CARO_G4_TEAM
             OCo oco = new OCo(MangOCo[Dong, Cot].Dong, MangOCo[Dong, Cot].Cot, MangOCo[Dong, Cot].ViTri, MangOCo[Dong, Cot].SoHuu);
             Stack_CacNuocDaDi.Push(MangOCo[Dong, Cot]);
             return true;
-        }   // Chức năng đánh cờ
+        }
+
+
 
         public bool DanhCoOnLan(int MouseX, int MouseY, Graphics g, bool isServer)
         {
@@ -129,24 +147,56 @@ namespace GAME_CARO_G4_TEAM
             if (KiemTraChienThang())
                 KetThucTroChoi();
 
-
-
             return true;
-        }   // Chức năng đánh cờ
+        }
 
-        public void VeLaiOCo(Graphics g)
+
+        #endregion
+
+        #region Undo, Redo
+
+        public void Undo(Graphics g,Color clr)
         {
-            foreach(OCo oco in Stack_CacNuocDaDi)
+            if (Stack_CacNuocDaDi.Count != 0)
             {
-                if (oco.SoHuu == 1)
-                    _BanCo.VeX(g, oco.ViTri);
-                else if(oco.SoHuu==2)
-                {
-                    _BanCo.VeO(g, oco.ViTri);
-                }
-            }
-        }   //Vẽ lại quân cơ
+                OCo oco = Stack_CacNuocDaDi.Pop();
+                Stack_CacNuocUndo.Push(new OCo(oco.Dong, oco.Cot, oco.ViTri, oco.SoHuu));
+                MangOCo[oco.Dong, oco.Cot].SoHuu = 0;
+                sbrWhite.Color = clr;
+                _BanCo.XoaOCo(g, oco.ViTri, sbrWhite);
 
+                if (_LuotDi == 1)
+                    _LuotDi = 2;
+                else
+                    _LuotDi = 1;
+            }
+
+        }
+
+        public void Redo(Graphics g)
+        {
+            if (Stack_CacNuocUndo.Count != 0)
+            {
+                OCo oco = Stack_CacNuocUndo.Pop();
+                Stack_CacNuocDaDi.Push(new OCo(oco.Dong, oco.Cot, oco.ViTri, oco.SoHuu));
+                MangOCo[oco.Dong, oco.Cot].SoHuu = oco.SoHuu;
+                if (oco.SoHuu == 1)
+                {
+                    _BanCo.VeX(g, MangOCo[oco.Dong, oco.Cot].ViTri);
+                }
+                else
+                {
+                    _BanCo.VeO(g, MangOCo[oco.Dong, oco.Cot].ViTri);
+                }
+                if (_LuotDi == 1)
+                    _LuotDi = 2;
+                else
+                    _LuotDi = 1;
+            }
+        }
+        #endregion
+
+        #region PvsP, LanGame, PvsCom
         public void StartPvsP(Graphics g)
         {
             _SanSang = true;
@@ -156,20 +206,8 @@ namespace GAME_CARO_G4_TEAM
             _CheDoChoi = 1;
             KhoiTaoMangOCo();
             VeBanCo(g);
-        }        //Chức năng chơi với người
-
-        public void StartLanGame(Graphics g)
-        {
-            _SanSang = true;
-            Stack_CacNuocDaDi = new Stack<OCo>();
-            Stack_CacNuocUndo = new Stack<OCo>();
-            _LuotDi = 1;
-            _CheDoChoi = 1;
-            KhoiTaoMangOCo();
-            VeBanCo(g);
         }
-
-        public void StartPvsCom(Graphics g ,TextBox playername)
+        public void StartLanGame(Graphics g)
         {
             _SanSang = true;
             Stack_CacNuocDaDi = new Stack<OCo>();
@@ -178,71 +216,82 @@ namespace GAME_CARO_G4_TEAM
             _CheDoChoi = 2;
             KhoiTaoMangOCo();
             VeBanCo(g);
-            KhoiDongMay(g,playername);
         }
 
-        public void Undo(Graphics g)
+        public void StartPvsCom(Graphics g, TextBox playername)
         {
-            if(Stack_CacNuocDaDi.Count!=0)
-            {
-                OCo oco = Stack_CacNuocDaDi.Pop();
-                Stack_CacNuocUndo.Push(new OCo(oco.Dong,oco.Cot,oco.ViTri,oco.SoHuu));
-                MangOCo[oco.Dong, oco.Cot].SoHuu = 0;
-                _BanCo.XoaOCo(g, oco.ViTri, sbrWhite);
-
-                if (_LuotDi == 1)
-                    _LuotDi = 2;
-                else
-                    _LuotDi = 1;
-            }
-                       
-        }  //Undo
-
-        public void Redo(Graphics g)
-        {
-            if (Stack_CacNuocUndo.Count != 0)
-            {
-                OCo oco = Stack_CacNuocUndo.Pop();
-                Stack_CacNuocDaDi.Push(new OCo(oco.Dong, oco.Cot, oco.ViTri, oco.SoHuu));
-                MangOCo[oco.Dong, oco.Cot].SoHuu = oco.SoHuu;
-               if(oco.SoHuu==1)
-                {
-                    _BanCo.VeX(g, MangOCo[oco.Dong,oco.Cot].ViTri);
-                }
-               else 
-                {
-                    _BanCo.VeO(g, MangOCo[oco.Dong, oco.Cot].ViTri);
-                }
-                if (_LuotDi == 1)
-                    _LuotDi = 2;
-                else
-                    _LuotDi = 1;
-            }
-        }  //Redo
+            _SanSang = true;
+            Stack_CacNuocDaDi = new Stack<OCo>();
+            Stack_CacNuocUndo = new Stack<OCo>();
+            _LuotDi = 1;
+            _CheDoChoi = 2;
+            KhoiTaoMangOCo();
+            VeBanCo(g);
+            KhoiDongMay(g, playername);
+        }
+        #endregion
 
         #region Duyệt chiến thắng
 
         public void KetThucTroChoi()
         {
-            switch(_KetThuc)
+            switch (_KetThuc)
             {
-                case KETTHUC.HoaCo:
-                    MessageBox.Show("Hòa Cờ");
+                case 0: // hòa cờ
+                    MessageBox.Show("Hòa cờ!");
                     break;
-                case KETTHUC.Player1:
-                    MessageBox.Show("Nguời chơi 1 thắng");
+                case 1: // người 1 thắng
+                    MessageBox.Show("Người chơi 1 thắng!");
+                    P1++;
                     break;
-                case KETTHUC.Player2:
-                    MessageBox.Show("Người chơi 2 thắng");
+                case 2: // người 2 thắng
+                    MessageBox.Show("Người chơi 2 thắng!");
+                    P2++;
                     break;
-                case KETTHUC.COM:
-                    MessageBox.Show("Máy thắng");
+                case 3: // máy thắng
+                    MessageBox.Show("Máy thắng!");
+                    C++;
                     break;
-                   
+                case 4: // bạn thắng
+                    MessageBox.Show("Bạn thắng!");
+                    P++;
+                    break;
+               
+
+
             }
             _SanSang = false;
         }
 
+        public bool KiemTraChienThang()
+        {
+            if (Stack_CacNuocDaDi.Count == _BanCo.NumCot * _BanCo.NumDong)
+            {
+                _KetThuc = 0;
+                return true;
+            }
+
+            foreach (OCo oco in Stack_CacNuocDaDi)
+            {
+                if (DuyetDoc(oco.Dong, oco.Cot, oco.SoHuu) || DuyetNgang(oco.Dong, oco.Cot, oco.SoHuu) || DuyetCheoNguoc(oco.Dong, oco.Cot, oco.SoHuu) || DuyetCheoXuoi(oco.Dong, oco.Cot, oco.SoHuu))
+                {
+                    if(_CheDoChoi == 1)
+                    {
+                        _KetThuc = oco.SoHuu == 1 ? 1 : 2;
+                        return true;
+                    }
+                    else if (_CheDoChoi == 2)
+                    {
+                        _KetThuc = oco.SoHuu == 1 ? 3 : 4;
+                        return true;
+                    }
+                   
+                }
+            }
+
+            return false;
+        }
+        #region Duyệt
         private bool DuyetDoc(int iDong,int iCot,int iSoHuu)
         {
             if (iDong > _BanCo.NumDong - 5)
@@ -318,26 +367,8 @@ namespace GAME_CARO_G4_TEAM
 
             return false;
         }
+        #endregion
 
-        public bool KiemTraChienThang()
-        {
-            if (Stack_CacNuocDaDi.Count == _BanCo.NumCot * _BanCo.NumDong)
-            {
-                _KetThuc = KETTHUC.HoaCo;
-                return true;
-            }
-
-            foreach(OCo oco in Stack_CacNuocDaDi)
-            {
-                if(DuyetDoc(oco.Dong,oco.Cot,oco.SoHuu)||DuyetNgang(oco.Dong,oco.Cot,oco.SoHuu)|| DuyetCheoNguoc(oco.Dong, oco.Cot, oco.SoHuu)|| DuyetCheoXuoi(oco.Dong, oco.Cot, oco.SoHuu)) 
-                {
-                    _KetThuc = oco.SoHuu == 1 ? KETTHUC.Player1 : KETTHUC.Player2;
-                    return true;
-                }
-            }
-
-            return false;
-        }
 
         #endregion
 

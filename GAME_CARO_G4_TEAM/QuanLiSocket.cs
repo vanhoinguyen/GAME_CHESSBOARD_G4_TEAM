@@ -32,7 +32,7 @@ namespace GAME_CARO_G4_TEAM
             {
 
                 IPEndPoint iep = new IPEndPoint(IP, PORT);
-                Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
                 
                 Client.Connect(iep);
                 this.IsServer = false;
@@ -42,7 +42,7 @@ namespace GAME_CARO_G4_TEAM
             }
             catch
             {
-                MessageBox.Show("Kết nối đến server không thành công!\nVui lòng kiểm tra lại!");
+               // MessageBox.Show("Kết nối đến server không thành công!\nVui lòng kiểm tra lại!");
                 return false;
             }
         }
@@ -57,7 +57,7 @@ namespace GAME_CARO_G4_TEAM
         {
             IP = IPAddress.Parse(GetLocalIPv4(NetworkInterfaceType.Wireless80211));
             IPEndPoint iep = new IPEndPoint(IP,PORT);
-            Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
 
             Server.Bind(iep);
             Server.Listen(10);
@@ -79,10 +79,9 @@ namespace GAME_CARO_G4_TEAM
         }
         #endregion
 
-
         #region Both
         public IPAddress IP = IPAddress.Parse("127.0.0.1");
-        private const int PORT = 9999;
+        private const int PORT = 100;
         private bool isServer = true; // server sẽ mặc định là dấu o, client mặc định dấu x
         public bool IsServer { get => isServer; set => isServer = value; }
         private string _playerName = "Player";// tên người chơi

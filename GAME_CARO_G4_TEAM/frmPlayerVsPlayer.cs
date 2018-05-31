@@ -104,7 +104,7 @@ namespace GAME_CARO_G4_TEAM
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            carochess.Undo(grs);
+            carochess.Undo(grs, pnChessBoard.BackColor);
             socket.Send(new DataTransfer(new Point(0, 0), (int)CommandType.UNDO, "", socket.IsServer));
         }
 
@@ -115,7 +115,7 @@ namespace GAME_CARO_G4_TEAM
 
         private void btnUndo_Click(object sender, EventArgs e)
         {
-            carochess.Undo(grs);
+            carochess.Undo(grs, pnChessBoard.BackColor);
             if(isLanGame&&socket.IsConnected)
                 socket.Send(new DataTransfer(new Point(0, 0), (int)CommandType.UNDO, "", socket.IsServer));
         }
@@ -150,7 +150,6 @@ namespace GAME_CARO_G4_TEAM
         {
             isLanGame = true;
             btnLan.Enabled = false;
-            socket = new QuanLiSocket();
             socket.PlayerName = PlayerName.Name;
             socket.IP = IPAddress.Parse(IP.Text);
             if (!socket.ConnectServer())
@@ -279,7 +278,7 @@ namespace GAME_CARO_G4_TEAM
                 case (int)CommandType.UNDO:
                     this.Invoke((MethodInvoker)(() =>
                     {
-                        carochess.Undo(grs);
+                        carochess.Undo(grs, pnChessBoard.BackColor);
                     }));
                     break;
                 case (int)CommandType.QUIT:
@@ -311,13 +310,20 @@ namespace GAME_CARO_G4_TEAM
                 case (int)CommandType.CONNECT:
                     this.Invoke((MethodInvoker)(() =>
                     {
-                        pnChessBoard.Enabled = true;
-                        socket.IsConnected = true;
-                        panel4.Visible = true;
-                        rivalName = data.Message;
-                        MessageBox.Show(rivalName + " đã kết nối !");
-                        MessageBox.Show("Trò chơi bắt đầu");
-                        socket.Send(new DataTransfer(new Point(0,0),(int)CommandType.NAME,socket.PlayerName,socket.IsServer));
+                        try
+                        {
+                            pnChessBoard.Enabled = true;
+                            socket.IsConnected = true;
+                            panel4.Visible = true;
+                            rivalName = data.Message;
+                            MessageBox.Show(rivalName + " đã kết nối !");
+                            MessageBox.Show("Trò chơi bắt đầu");
+                            socket.Send(new DataTransfer(new Point(0, 0), (int)CommandType.NAME, socket.PlayerName, socket.IsServer));
+                        }
+                        catch
+                        {
+
+                        }
                         
                     }));
                     break;

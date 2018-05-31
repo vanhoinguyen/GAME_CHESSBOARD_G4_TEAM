@@ -9,14 +9,11 @@ namespace GAME_CARO_G4_TEAM
 {
     class OCo
     {
-        public const int _ChieuRong = 25;//chiều rộng
-        public const int _ChieuCao = 25;//chiều cao
+        public const int _ChieuRong = 25;
+        public const int _ChieuCao = 25;
 
-
-
-
-        private int _Dong;//dòng
-        private int _Cot;//cột
+        private int _Dong;
+        private int _Cot;
 
         public int Dong
         {
@@ -30,7 +27,6 @@ namespace GAME_CARO_G4_TEAM
                 _Dong = value;
             }
         }
-
         public int Cot
         {
             get
@@ -43,8 +39,7 @@ namespace GAME_CARO_G4_TEAM
                 _Cot = value;
             }
         }
-
-        private Point _ViTri;//vị trí
+        private Point _ViTri;
         public Point ViTri
         {
             get
@@ -57,7 +52,6 @@ namespace GAME_CARO_G4_TEAM
                 _ViTri = value;
             }
         }
-
 
         private int _SoHuu;//sở hữu (server là 1, client là 2)
         public int SoHuu
@@ -72,8 +66,6 @@ namespace GAME_CARO_G4_TEAM
                 _SoHuu = value;
             }
         }
-
-        
 
         public OCo()
         { }   
