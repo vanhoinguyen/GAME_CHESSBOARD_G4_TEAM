@@ -12,6 +12,8 @@ namespace GAME_CARO_G4_TEAM
 {
     public partial class frmPlayerVsCom : Form
     {
+        #region Init
+
         private CaroChess carochess;
         private Graphics grs;
         public frmPlayerVsCom()
@@ -21,18 +23,21 @@ namespace GAME_CARO_G4_TEAM
             grs = pnChessBoard.CreateGraphics();
         }
 
+        #endregion
+
+        #region Event
         private void pnChessBoard_Paint(object sender, PaintEventArgs e)
         {
             
             carochess.VeBanCo(grs); //Vẽ bàn cờ
             carochess.VeLaiOCo(grs);  //Vẽ lại quân cờ
-            txtPlayerName.Text = "";
+
         }
 
         private void btnPlay_Click(object sender, EventArgs e)
         {
             grs.Clear(pnChessBoard.BackColor);
-            txtPlayerName.Text = "Nguời chơi 1";
+            txtPlayerName.Text = PlayerName.Name;
             carochess.StartPvsCom(grs,txtPlayerName);
         }
 
@@ -58,6 +63,16 @@ namespace GAME_CARO_G4_TEAM
 
         }
 
+        private void chơiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            grs.Clear(pnChessBoard.BackColor);
+            txtPlayerName.Text = PlayerName.Name;
+            carochess.StartPvsCom(grs, txtPlayerName);
+        }
+
+        #endregion
+
+        #region UndoReDo
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             carochess.Undo(grs);
@@ -68,33 +83,73 @@ namespace GAME_CARO_G4_TEAM
             carochess.Redo(grs);
         }
 
-        private void màuNềnToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnUndo_Click(object sender, EventArgs e)
         {
-            ColorDialog dlgColor = new ColorDialog();
-            dlgColor.FullOpen = true;
-            if (dlgColor.ShowDialog() == DialogResult.OK)
-                this.BackColor = dlgColor.Color;
+            carochess.Undo(grs);
         }
 
-        private void màuBànCờToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnRedo_Click(object sender, EventArgs e)
         {
-            ColorDialog dlgColor = new ColorDialog();
-            dlgColor.FullOpen = true;
-            if (dlgColor.ShowDialog() == DialogResult.OK)
-                pnChessBoard.BackColor = dlgColor.Color;
+            carochess.Redo(grs);
         }
 
+        #endregion
 
+        #region Thoát và Thu Nhỏ
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
 
-        private void màuQuânXToolStripMenuItem_Click(object sender, EventArgs e)
+        private void btnThoat1_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+        private void thoátGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+        private void btnThuNho_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+
+        }
+        #endregion
+
+        #region MoveForm
+        Boolean flag;
+        int x, y;
+
+        private void frmPlayerVsCom_MouseUp(object sender, MouseEventArgs e)
+        {
+            flag = false;
+        }
+
+        private void frmPlayerVsCom_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (flag == true)
+            {
+                this.SetDesktopLocation(Cursor.Position.X - x, Cursor.Position.Y - y);
+            }
+        }
+
+        private void frmPlayerVsCom_MouseDown(object sender, MouseEventArgs e)
+        {
+            flag = true;
+            x = e.X;
+            y = e.Y;
+        }
+        #endregion
+   
+        #region Color
+        private void màuViềnToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ColorDialog dlgColor = new ColorDialog();
             dlgColor.FullOpen = true;
             if (dlgColor.ShowDialog() == DialogResult.OK)
             {
-                CaroChess.penX = new Pen(dlgColor.Color, 2f);
+                CaroChess.pen = new Pen(dlgColor.Color);
                 carochess.VeBanCo(grs);
-                carochess.VeLaiOCo(grs);
             }
         }
 
@@ -109,19 +164,42 @@ namespace GAME_CARO_G4_TEAM
                 carochess.VeLaiOCo(grs);
             }
         }
-        
-        private void màuViềnToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void màuQuânXToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
             ColorDialog dlgColor = new ColorDialog();
             dlgColor.FullOpen = true;
             if (dlgColor.ShowDialog() == DialogResult.OK)
             {
-                CaroChess.pen = new Pen(dlgColor.Color);
+                CaroChess.penX = new Pen(dlgColor.Color, 2f);
                 carochess.VeBanCo(grs);
+                carochess.VeLaiOCo(grs);
             }
         }
 
+        private void bunifuFlatButton2_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void bunifuFlatButton1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void frmPlayerVsCom_Load(object sender, EventArgs e)
+        {
+            txtPlayerName.Text = PlayerName.Name;
+        }
+
+        private void màuBànCờToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog dlgColor = new ColorDialog();
+            dlgColor.FullOpen = true;
+            if (dlgColor.ShowDialog() == DialogResult.OK)
+                pnChessBoard.BackColor = dlgColor.Color;
+        }
+        #endregion
 
     }
 }

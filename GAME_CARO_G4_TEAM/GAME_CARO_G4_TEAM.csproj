@@ -33,8 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Bunifu_UI_v1.5.3">
+      <HintPath>..\..\..\..\Documents\GitHub\Vemaybay\Airline\bin\Debug\Bunifu_UI_v1.5.3.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,21 +51,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="QuanLiSocket.cs" />
     <Compile Include="AILevelHard.cs" />
     <Compile Include="CaroChess.cs" />
     <Compile Include="BanCo.cs" />
+    <Compile Include="DataTransfer.cs" />
+    <Compile Include="frmManHinhChinh.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmManHinhChinh.Designer.cs">
+      <DependentUpon>frmManHinhChinh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NameInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NameInput.Designer.cs">
+      <DependentUpon>NameInput.cs</DependentUpon>
+    </Compile>
     <Compile Include="OCo.cs" />
     <Compile Include="frmPlayerVsCom.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmPlayerVsCom.Designer.cs">
       <DependentUpon>frmPlayerVsCom.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="frmPlayerVsPlayer.cs">
       <SubType>Form</SubType>
@@ -70,14 +83,17 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmManHinhChinh.resx">
+      <DependentUpon>frmManHinhChinh.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmPlayerVsCom.resx">
       <DependentUpon>frmPlayerVsCom.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Main.resx">
-      <DependentUpon>Main.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmPlayerVsPlayer.resx">
       <DependentUpon>frmPlayerVsPlayer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NameInput.resx">
+      <DependentUpon>NameInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -118,6 +134,36 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\X.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bannerbutton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\buttonHuongDan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\buttonPvsCon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\buttonPvsP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\buttonThoatGame.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Scroll_PNG_Clip_Art_Image-263687686.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Old_Scroll_Paper_PNG_Clipart_Image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paper.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\minimize.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

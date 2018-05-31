@@ -15,9 +15,8 @@ namespace GAME_CARO_G4_TEAM
         Player2,
         COM
     }
-   class CaroChess 
-    {
-       
+    class CaroChess 
+    {       
         public static Pen pen;
         public static Pen penX;
         public static Pen penO;
@@ -30,11 +29,11 @@ namespace GAME_CARO_G4_TEAM
         SolidBrush sbrWhite;
         private KETTHUC _KetThuc;
         private int _CheDoChoi;
-
-
+        
         public bool SanSang { get { return _SanSang; } }
         public int CheDoChoi { get { return _CheDoChoi; } }
-       
+
+        internal OCo[,] MangOCo { get => _MangOCo; set => _MangOCo = value; }
 
         public CaroChess()
         {
@@ -46,46 +45,49 @@ namespace GAME_CARO_G4_TEAM
             _LuotDi = 1;
             sbrWhite = new SolidBrush(Color.White);
             _BanCo = new BanCo(24, 21);
-            _MangOCo = new OCo[_BanCo.NumDong, _BanCo.NumCot];
+            MangOCo = new OCo[_BanCo.NumDong, _BanCo.NumCot];
         }
+
         public void VeBanCo(Graphics g)
         {
             _BanCo.VeBanCo(g);
         }  // Vẽ Bàn Cờ
+
         public void KhoiTaoMangOCo()
         {
             for(int i=0;i<_BanCo.NumDong;i++)
             {
                 for(int j=0;j<_BanCo.NumCot;j++)
                 {
-                    _MangOCo[i, j] = new OCo(i,j,new Point(j*OCo._ChieuRong,i*OCo._ChieuCao),0);
+                    MangOCo[i, j] = new OCo(i,j,new Point(j*OCo._ChieuRong,i*OCo._ChieuCao),0);
                 }
             }
         }     // Khởi tạo mảng quân cờ
-        public bool DanhCo(int MouseX, int MouseY, Graphics g,TextBox playername)
+
+        public bool DanhCo(int MouseX, int MouseY, Graphics g, TextBox playername)
         {
             if (MouseX % OCo._ChieuRong == 0 || MouseY % OCo._ChieuCao == 0)
                 return false;
             int Cot = MouseX / OCo._ChieuRong;
             int Dong = MouseY / OCo._ChieuCao;
 
-            if (_MangOCo[Dong, Cot].SoHuu != 0)
+            if (MangOCo[Dong, Cot].SoHuu != 0)
                 return false;
 
             switch(_LuotDi)
             {
                 case 1:
-                    _MangOCo[Dong, Cot].SoHuu = 1;
-                    playername.Text= "Người chơi 1";
-                   
-                    _BanCo.VeX(g, _MangOCo[Dong, Cot].ViTri);
+                    MangOCo[Dong, Cot].SoHuu = 1;
+                    if(_CheDoChoi == 1)
+                        playername.Text= "Người chơi 1";
+                    _BanCo.VeX(g, MangOCo[Dong, Cot].ViTri);
                     _LuotDi = 2;
                     break;
                 case 2:
-                    _MangOCo[Dong, Cot].SoHuu = 2;
-                   playername.Text = "Người chơi 2";
-                    
-                    _BanCo.VeO(g, _MangOCo[Dong, Cot].ViTri);
+                    MangOCo[Dong, Cot].SoHuu = 2;
+                    if (_CheDoChoi == 1)
+                        playername.Text = "Người chơi 2";
+                    _BanCo.VeO(g, MangOCo[Dong, Cot].ViTri);
                     _LuotDi = 1;
                     break;
                 default:
@@ -93,10 +95,45 @@ namespace GAME_CARO_G4_TEAM
                     break;
             }
             Stack_CacNuocUndo = new Stack<OCo>();
-            OCo oco = new OCo(_MangOCo[Dong, Cot].Dong, _MangOCo[Dong, Cot].Cot, _MangOCo[Dong, Cot].ViTri, _MangOCo[Dong, Cot].SoHuu);
-            Stack_CacNuocDaDi.Push(_MangOCo[Dong, Cot]);
+            OCo oco = new OCo(MangOCo[Dong, Cot].Dong, MangOCo[Dong, Cot].Cot, MangOCo[Dong, Cot].ViTri, MangOCo[Dong, Cot].SoHuu);
+            Stack_CacNuocDaDi.Push(MangOCo[Dong, Cot]);
             return true;
         }   // Chức năng đánh cờ
+
+        public bool DanhCoOnLan(int MouseX, int MouseY, Graphics g, bool isServer)
+        {
+            if (MouseX % OCo._ChieuRong == 0 || MouseY % OCo._ChieuCao == 0)
+                return false;
+            int Cot = MouseX / OCo._ChieuRong;
+            int Dong = MouseY / OCo._ChieuCao;
+
+            if (MangOCo[Dong, Cot].SoHuu != 0)
+                return false;
+
+            switch (isServer)
+            {
+                case true:
+                    MangOCo[Dong, Cot].SoHuu = 2;
+                    _BanCo.VeO(g, MangOCo[Dong, Cot].ViTri);
+                    break;
+                case false:
+                    MangOCo[Dong, Cot].SoHuu = 1;
+                    _BanCo.VeX(g, MangOCo[Dong, Cot].ViTri);
+                    break;
+
+            }
+
+            Stack_CacNuocUndo = new Stack<OCo>();
+            OCo oco = new OCo(MangOCo[Dong, Cot].Dong, MangOCo[Dong, Cot].Cot, MangOCo[Dong, Cot].ViTri, MangOCo[Dong, Cot].SoHuu);
+            Stack_CacNuocDaDi.Push(MangOCo[Dong, Cot]);
+            if (KiemTraChienThang())
+                KetThucTroChoi();
+
+
+
+            return true;
+        }   // Chức năng đánh cờ
+
         public void VeLaiOCo(Graphics g)
         {
             foreach(OCo oco in Stack_CacNuocDaDi)
@@ -109,6 +146,7 @@ namespace GAME_CARO_G4_TEAM
                 }
             }
         }   //Vẽ lại quân cơ
+
         public void StartPvsP(Graphics g)
         {
             _SanSang = true;
@@ -119,6 +157,18 @@ namespace GAME_CARO_G4_TEAM
             KhoiTaoMangOCo();
             VeBanCo(g);
         }        //Chức năng chơi với người
+
+        public void StartLanGame(Graphics g)
+        {
+            _SanSang = true;
+            Stack_CacNuocDaDi = new Stack<OCo>();
+            Stack_CacNuocUndo = new Stack<OCo>();
+            _LuotDi = 1;
+            _CheDoChoi = 1;
+            KhoiTaoMangOCo();
+            VeBanCo(g);
+        }
+
         public void StartPvsCom(Graphics g ,TextBox playername)
         {
             _SanSang = true;
@@ -130,13 +180,14 @@ namespace GAME_CARO_G4_TEAM
             VeBanCo(g);
             KhoiDongMay(g,playername);
         }
+
         public void Undo(Graphics g)
         {
             if(Stack_CacNuocDaDi.Count!=0)
             {
                 OCo oco = Stack_CacNuocDaDi.Pop();
                 Stack_CacNuocUndo.Push(new OCo(oco.Dong,oco.Cot,oco.ViTri,oco.SoHuu));
-                _MangOCo[oco.Dong, oco.Cot].SoHuu = 0;
+                MangOCo[oco.Dong, oco.Cot].SoHuu = 0;
                 _BanCo.XoaOCo(g, oco.ViTri, sbrWhite);
 
                 if (_LuotDi == 1)
@@ -146,20 +197,21 @@ namespace GAME_CARO_G4_TEAM
             }
                        
         }  //Undo
+
         public void Redo(Graphics g)
         {
             if (Stack_CacNuocUndo.Count != 0)
             {
                 OCo oco = Stack_CacNuocUndo.Pop();
                 Stack_CacNuocDaDi.Push(new OCo(oco.Dong, oco.Cot, oco.ViTri, oco.SoHuu));
-                _MangOCo[oco.Dong, oco.Cot].SoHuu = oco.SoHuu;
+                MangOCo[oco.Dong, oco.Cot].SoHuu = oco.SoHuu;
                if(oco.SoHuu==1)
                 {
-                    _BanCo.VeX(g, _MangOCo[oco.Dong,oco.Cot].ViTri);
+                    _BanCo.VeX(g, MangOCo[oco.Dong,oco.Cot].ViTri);
                 }
                else 
                 {
-                    _BanCo.VeO(g, _MangOCo[oco.Dong, oco.Cot].ViTri);
+                    _BanCo.VeO(g, MangOCo[oco.Dong, oco.Cot].ViTri);
                 }
                 if (_LuotDi == 1)
                     _LuotDi = 2;
@@ -169,6 +221,7 @@ namespace GAME_CARO_G4_TEAM
         }  //Redo
 
         #region Duyệt chiến thắng
+
         public void KetThucTroChoi()
         {
             switch(_KetThuc)
@@ -189,6 +242,7 @@ namespace GAME_CARO_G4_TEAM
             }
             _SanSang = false;
         }
+
         private bool DuyetDoc(int iDong,int iCot,int iSoHuu)
         {
             if (iDong > _BanCo.NumDong - 5)
@@ -196,17 +250,18 @@ namespace GAME_CARO_G4_TEAM
             int Count;
             for(Count=1;Count<5;Count++)
             {
-                if (_MangOCo[iDong + Count, iCot].SoHuu != iSoHuu)
+                if (MangOCo[iDong + Count, iCot].SoHuu != iSoHuu)
                     return false;
             }
             if (iDong == 0||iDong+Count==_BanCo.NumDong)
                 return true;
 
-            if (_MangOCo[iDong - 1, iCot].SoHuu == 0 || _MangOCo[iDong + Count, iCot].SoHuu == 0)
+            if (MangOCo[iDong - 1, iCot].SoHuu == 0 || MangOCo[iDong + Count, iCot].SoHuu == 0)
                 return true;
 
             return false;
         }
+
         private bool DuyetNgang(int iDong, int iCot, int iSoHuu)
         {
             if (iCot > _BanCo.NumCot - 5)
@@ -214,17 +269,18 @@ namespace GAME_CARO_G4_TEAM
             int Count;
             for (Count = 1; Count < 5; Count++)
             {
-                if (_MangOCo[iDong , iCot + Count].SoHuu != iSoHuu)
+                if (MangOCo[iDong , iCot + Count].SoHuu != iSoHuu)
                     return false;
             }
             if (iCot == 0 || iCot + Count == _BanCo.NumCot)
                 return true;
 
-            if (_MangOCo[iDong , iCot - 1].SoHuu == 0 || _MangOCo[iDong , iCot + Count].SoHuu == 0)
+            if (MangOCo[iDong , iCot - 1].SoHuu == 0 || MangOCo[iDong , iCot + Count].SoHuu == 0)
                 return true;
 
             return false;
         }
+
         private bool DuyetCheoXuoi(int iDong, int iCot, int iSoHuu)
         {
             if (iCot > _BanCo.NumCot - 5  || iDong>_BanCo.NumDong-5)
@@ -232,17 +288,18 @@ namespace GAME_CARO_G4_TEAM
             int Count;
             for (Count = 1; Count < 5; Count++)
             {
-                if (_MangOCo[iDong+Count, iCot + Count].SoHuu != iSoHuu)
+                if (MangOCo[iDong+Count, iCot + Count].SoHuu != iSoHuu)
                     return false;
             }
             if (iCot == 0||iCot+Count==_BanCo.NumCot ||iDong==0|| iDong + Count == _BanCo.NumDong)
                 return true;
 
-            if (_MangOCo[iDong-1, iCot - 1].SoHuu == 0 || _MangOCo[iDong+Count, iCot + Count].SoHuu == 0)
+            if (MangOCo[iDong-1, iCot - 1].SoHuu == 0 || MangOCo[iDong+Count, iCot + Count].SoHuu == 0)
                 return true;
 
             return false;
         }
+
         private bool DuyetCheoNguoc(int iDong, int iCot, int iSoHuu)
         {
             if (iCot > _BanCo.NumCot - 5 || iDong <4  )
@@ -250,18 +307,17 @@ namespace GAME_CARO_G4_TEAM
             int Count;
             for (Count = 1; Count < 5; Count++)
             {
-                if (_MangOCo[iDong - Count, iCot + Count].SoHuu != iSoHuu)
+                if (MangOCo[iDong - Count, iCot + Count].SoHuu != iSoHuu)
                     return false;
             }
             if ( iDong==4||iDong==_BanCo.NumDong-1||iCot==0||iCot+Count==_BanCo.NumCot)
                 return true;
 
-            if (_MangOCo[iDong + 1, iCot - 1].SoHuu == 0 || _MangOCo[iDong - Count, iCot + Count].SoHuu == 0)
+            if (MangOCo[iDong + 1, iCot - 1].SoHuu == 0 || MangOCo[iDong - Count, iCot + Count].SoHuu == 0)
                 return true;
 
             return false;
         }
-
 
         public bool KiemTraChienThang()
         {
@@ -282,10 +338,8 @@ namespace GAME_CARO_G4_TEAM
 
             return false;
         }
+
         #endregion
-
-
-
 
         //{0,64,4096,262144,16777216,1073741824}
         //{0,8,512,32768,2097152,134217728}
@@ -316,7 +370,7 @@ namespace GAME_CARO_G4_TEAM
             {
                 for (int j = 0; j < _BanCo.NumCot; j++)
                 {
-                    if (_MangOCo[i, j].SoHuu == 0)
+                    if (MangOCo[i, j].SoHuu == 0)
                     {
                         long DiemTanCong = DiemTanCong_DuyetDoc(i, j) + DiemTanCong_DuyetNgang(i, j) + DiemTanCong_DuyetCheoXuoi(i, j) + DiemTanCong_DuyetCheoNguoc(i, j);
                         long DiemPhongNgu = DiemPhongNgu_DuyetNgang(i, j) + DiemPhongNgu_DuyetDoc(i, j) + DiemPhongNgu_DuyetCheoXuoi(i, j) + DiemPhongNgu_DuyetCheoNguoc(i, j);
@@ -325,7 +379,7 @@ namespace GAME_CARO_G4_TEAM
                         if (DiemMax < DiemTong)
                         {
                             DiemMax = DiemTong;
-                            kq = new OCo(_MangOCo[i, j].Dong, _MangOCo[i, j].Cot, _MangOCo[i, j].ViTri, _MangOCo[i, j].SoHuu);
+                            kq = new OCo(MangOCo[i, j].Dong, MangOCo[i, j].Cot, MangOCo[i, j].ViTri, MangOCo[i, j].SoHuu);
                         }
                     }
                 }
@@ -341,22 +395,22 @@ namespace GAME_CARO_G4_TEAM
             int SoQuanDich = 0;
             int SoQuanTa2 = 0;
             int SoQuanDich2 = 0;
-            if (iDong + 1 < _BanCo.NumDong && _MangOCo[iDong + 1, iCot].SoHuu == 0)
+            if (iDong + 1 < _BanCo.NumDong && MangOCo[iDong + 1, iCot].SoHuu == 0)
             {
 
             }
-            if (iDong > 0 && _MangOCo[iDong - 1, iCot].SoHuu == 0)
+            if (iDong > 0 && MangOCo[iDong - 1, iCot].SoHuu == 0)
             {
 
             }
             //
             for (int dem = 1; dem < 5 && iDong + dem < _BanCo.NumDong; dem++)
             {
-                if (_MangOCo[iDong + dem, iCot].SoHuu == 1)
+                if (MangOCo[iDong + dem, iCot].SoHuu == 1)
                 {
                     SoQuanTa++;
                 }
-                else if (_MangOCo[iDong + dem, iCot].SoHuu == 2)
+                else if (MangOCo[iDong + dem, iCot].SoHuu == 2)
                 {
                     SoQuanDich++;
                     break;
@@ -364,11 +418,11 @@ namespace GAME_CARO_G4_TEAM
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iDong + dem2 < _BanCo.NumDong; dem2++)
-                        if (_MangOCo[iDong + dem2, iCot].SoHuu == 1)
+                        if (MangOCo[iDong + dem2, iCot].SoHuu == 1)
                         {
                             SoQuanTa2++;
                         }
-                        else if (_MangOCo[iDong + dem2, iCot].SoHuu == 2)
+                        else if (MangOCo[iDong + dem2, iCot].SoHuu == 2)
                         {
                             SoQuanDich2++;
                             break;
@@ -380,11 +434,11 @@ namespace GAME_CARO_G4_TEAM
             }
             for (int dem = 1; dem < 5 && iDong - dem >= 0; dem++)
             {
-                if (_MangOCo[iDong - dem, iCot].SoHuu == 1)
+                if (MangOCo[iDong - dem, iCot].SoHuu == 1)
                 {
                     SoQuanTa++;
                 }
-                else if (_MangOCo[iDong - dem, iCot].SoHuu == 2)
+                else if (MangOCo[iDong - dem, iCot].SoHuu == 2)
                 {
                     SoQuanDich++;
                     break;
@@ -392,11 +446,11 @@ namespace GAME_CARO_G4_TEAM
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iDong - dem2 >= 0; dem2++)
-                        if (_MangOCo[iDong - dem2, iCot].SoHuu == 1)
+                        if (MangOCo[iDong - dem2, iCot].SoHuu == 1)
                         {
                             SoQuanTa2++;
                         }
-                        else if (_MangOCo[iDong - dem2, iCot].SoHuu == 2)
+                        else if (MangOCo[iDong - dem2, iCot].SoHuu == 2)
                         {
                             SoQuanDich2++;
                             break;
@@ -439,22 +493,22 @@ namespace GAME_CARO_G4_TEAM
             int SoQuanDich = 0;
             int SoQuanTa2 = 0;
             int SoQuanDich2 = 0;
-            if (iCot + 1 < _BanCo.NumCot && _MangOCo[iDong, iCot + 1].SoHuu == 0)
+            if (iCot + 1 < _BanCo.NumCot && MangOCo[iDong, iCot + 1].SoHuu == 0)
             {
 
             }
-            if (iCot > 0 && _MangOCo[iDong, iCot - 1].SoHuu == 0)
+            if (iCot > 0 && MangOCo[iDong, iCot - 1].SoHuu == 0)
             {
 
             }
             //
             for (int dem = 1; dem < 5 && iCot + dem < _BanCo.NumCot; dem++)
             {
-                if (_MangOCo[iDong, iCot + dem].SoHuu == 1)
+                if (MangOCo[iDong, iCot + dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                 }
-                else if (_MangOCo[iDong, iCot + dem].SoHuu == 2)
+                else if (MangOCo[iDong, iCot + dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                     break;
@@ -462,11 +516,11 @@ namespace GAME_CARO_G4_TEAM
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iCot + dem2 < _BanCo.NumCot; dem2++)
-                        if (_MangOCo[iDong, iCot + dem2].SoHuu == 1)
+                        if (MangOCo[iDong, iCot + dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                         }
-                        else if (_MangOCo[iDong, iCot + dem2].SoHuu == 2)
+                        else if (MangOCo[iDong, iCot + dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                             break;
@@ -478,11 +532,11 @@ namespace GAME_CARO_G4_TEAM
             }
             for (int dem = 1; dem < 5 && iCot - dem >= 0; dem++)
             {
-                if (_MangOCo[iDong, iCot - dem].SoHuu == 1)
+                if (MangOCo[iDong, iCot - dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                 }
-                else if (_MangOCo[iDong, iCot - dem].SoHuu == 2)
+                else if (MangOCo[iDong, iCot - dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                     break;
@@ -490,11 +544,11 @@ namespace GAME_CARO_G4_TEAM
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iCot - dem2 >= 0; dem2++)
-                        if (_MangOCo[iDong, iCot - dem2].SoHuu == 1)
+                        if (MangOCo[iDong, iCot - dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                         }
-                        else if (_MangOCo[iDong, iCot - dem2].SoHuu == 2)
+                        else if (MangOCo[iDong, iCot - dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                             break;
@@ -537,22 +591,22 @@ namespace GAME_CARO_G4_TEAM
             int SoQuanDich = 0;
             int SoQuanTa2 = 0;
             int SoQuanDich2 = 0;
-            if (iDong + 1 < _BanCo.NumDong && iCot + 1 < _BanCo.NumCot && _MangOCo[iDong + 1, iCot + 1].SoHuu == 0)
+            if (iDong + 1 < _BanCo.NumDong && iCot + 1 < _BanCo.NumCot && MangOCo[iDong + 1, iCot + 1].SoHuu == 0)
             {
 
             }
-            if (iDong > 0 && iCot > 0 && _MangOCo[iDong - 1, iCot - 1].SoHuu == 0)
+            if (iDong > 0 && iCot > 0 && MangOCo[iDong - 1, iCot - 1].SoHuu == 0)
             {
 
             }
             //
             for (int dem = 1; dem < 5 && iCot + dem < _BanCo.NumCot && iDong + dem < _BanCo.NumDong; dem++)
             {
-                if (_MangOCo[iDong + dem, iCot + dem].SoHuu == 1)
+                if (MangOCo[iDong + dem, iCot + dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                 }
-                else if (_MangOCo[iDong + dem, iCot + dem].SoHuu == 2)
+                else if (MangOCo[iDong + dem, iCot + dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                     break;
@@ -560,11 +614,11 @@ namespace GAME_CARO_G4_TEAM
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iCot + dem2 < _BanCo.NumCot && iDong + dem2 < _BanCo.NumDong; dem2++)
-                        if (_MangOCo[iDong + dem2, iCot + dem2].SoHuu == 1)
+                        if (MangOCo[iDong + dem2, iCot + dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                         }
-                        else if (_MangOCo[iDong + dem2, iCot + dem2].SoHuu == 2)
+                        else if (MangOCo[iDong + dem2, iCot + dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                             break;
@@ -576,11 +630,11 @@ namespace GAME_CARO_G4_TEAM
             }
             for (int dem = 1; dem < 5 && iCot - dem >= 0 && iDong - dem >= 0; dem++)
             {
-                if (_MangOCo[iDong - dem, iCot - dem].SoHuu == 1)
+                if (MangOCo[iDong - dem, iCot - dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                 }
-                else if (_MangOCo[iDong - dem, iCot - dem].SoHuu == 2)
+                else if (MangOCo[iDong - dem, iCot - dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                     break;
@@ -588,11 +642,11 @@ namespace GAME_CARO_G4_TEAM
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iCot - dem2 >= 0 && iDong - dem2 >= 0; dem2++)
-                        if (_MangOCo[iDong - dem2, iCot - dem2].SoHuu == 1)
+                        if (MangOCo[iDong - dem2, iCot - dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                         }
-                        else if (_MangOCo[iDong - dem2, iCot - dem2].SoHuu == 2)
+                        else if (MangOCo[iDong - dem2, iCot - dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                             break;
@@ -636,22 +690,22 @@ namespace GAME_CARO_G4_TEAM
             int SoQuanDich = 0;
             int SoQuanTa2 = 0;
             int SoQuanDich2 = 0;
-            if (iDong > 0 && iCot + 1 < _BanCo.NumCot && _MangOCo[iDong - 1, iCot + 1].SoHuu == 0)
+            if (iDong > 0 && iCot + 1 < _BanCo.NumCot && MangOCo[iDong - 1, iCot + 1].SoHuu == 0)
             {
 
             }
-            if (iDong + 1 < _BanCo.NumDong && iCot > 0 && _MangOCo[iDong + 1, iCot - 1].SoHuu == 0)
+            if (iDong + 1 < _BanCo.NumDong && iCot > 0 && MangOCo[iDong + 1, iCot - 1].SoHuu == 0)
             {
 
             }
             //
             for (int dem = 1; dem < 5 && iCot + dem < _BanCo.NumCot && iDong - dem > 0; dem++)
             {
-                if (_MangOCo[iDong - dem, iCot + dem].SoHuu == 1)
+                if (MangOCo[iDong - dem, iCot + dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                 }
-                else if (_MangOCo[iDong - dem, iCot + dem].SoHuu == 2)
+                else if (MangOCo[iDong - dem, iCot + dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                     break;
@@ -659,11 +713,11 @@ namespace GAME_CARO_G4_TEAM
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iCot + dem2 < _BanCo.NumCot && iDong - dem2 > 0; dem2++)
-                        if (_MangOCo[iDong - dem2, iCot + dem2].SoHuu == 1)
+                        if (MangOCo[iDong - dem2, iCot + dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                         }
-                        else if (_MangOCo[iDong - dem2, iCot + dem2].SoHuu == 2)
+                        else if (MangOCo[iDong - dem2, iCot + dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                             break;
@@ -675,11 +729,11 @@ namespace GAME_CARO_G4_TEAM
             }
             for (int dem = 1; dem < 5 && iCot - dem >= 0 && iDong + dem < _BanCo.NumDong; dem++)
             {
-                if (_MangOCo[iDong + dem, iCot - dem].SoHuu == 1)
+                if (MangOCo[iDong + dem, iCot - dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                 }
-                else if (_MangOCo[iDong + dem, iCot - dem].SoHuu == 2)
+                else if (MangOCo[iDong + dem, iCot - dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                     break;
@@ -687,11 +741,11 @@ namespace GAME_CARO_G4_TEAM
                 else // SoHuu = 0
                 {
                     for (int dem2 = 1; dem2 < 6 && iCot - dem2 >= 0 && iDong + dem2 < _BanCo.NumDong; dem2++)
-                        if (_MangOCo[iDong + dem2, iCot - dem2].SoHuu == 1)
+                        if (MangOCo[iDong + dem2, iCot - dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                         }
-                        else if (_MangOCo[iDong + dem2, iCot - dem2].SoHuu == 2)
+                        else if (MangOCo[iDong + dem2, iCot - dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                             break;
@@ -739,24 +793,24 @@ namespace GAME_CARO_G4_TEAM
             int SoQuanDich2 = 0;
             for (int dem = 1; dem < 5 && iDong + dem < _BanCo.NumDong; dem++)
             {
-                if (_MangOCo[iDong + dem, iCot].SoHuu == 1)
+                if (MangOCo[iDong + dem, iCot].SoHuu == 1)
                 {
                     SoQuanTa++;
                     break;
                 }
-                else if (_MangOCo[iDong + dem, iCot].SoHuu == 2)
+                else if (MangOCo[iDong + dem, iCot].SoHuu == 2)
                 {
                     SoQuanDich++;
                 }
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iDong + dem2 < _BanCo.NumDong; dem2++)
-                        if (_MangOCo[iDong + dem, iCot].SoHuu == 1)
+                        if (MangOCo[iDong + dem, iCot].SoHuu == 1)
                         {
                             SoQuanTa2++;
                             break;
                         }
-                        else if (_MangOCo[iDong + dem, iCot].SoHuu == 2)
+                        else if (MangOCo[iDong + dem, iCot].SoHuu == 2)
                         {
                             SoQuanDich2++;
                         }
@@ -767,24 +821,24 @@ namespace GAME_CARO_G4_TEAM
             }
             for (int dem = 1; dem < 5 && iDong - dem >= 0; dem++)
             {
-                if (_MangOCo[iDong - dem, iCot].SoHuu == 1)
+                if (MangOCo[iDong - dem, iCot].SoHuu == 1)
                 {
                     SoQuanTa++;
                     break;
                 }
-                else if (_MangOCo[iDong - dem, iCot].SoHuu == 2)
+                else if (MangOCo[iDong - dem, iCot].SoHuu == 2)
                 {
                     SoQuanDich++;
                 }
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iDong - dem2 >= 0; dem2++)
-                        if (_MangOCo[iDong - dem2, iCot].SoHuu == 1)
+                        if (MangOCo[iDong - dem2, iCot].SoHuu == 1)
                         {
                             SoQuanTa2++;
                             break;
                         }
-                        else if (_MangOCo[iDong - dem2, iCot].SoHuu == 2)
+                        else if (MangOCo[iDong - dem2, iCot].SoHuu == 2)
                         {
                             SoQuanDich2++;
                         }
@@ -822,24 +876,24 @@ namespace GAME_CARO_G4_TEAM
             int SoQuanDich2 = 0;
             for (int dem = 1; dem < 5 && iCot + dem < _BanCo.NumCot; dem++)
             {
-                if (_MangOCo[iDong, iCot + dem].SoHuu == 1)
+                if (MangOCo[iDong, iCot + dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                     break;
                 }
-                else if (_MangOCo[iDong, iCot + dem].SoHuu == 2)
+                else if (MangOCo[iDong, iCot + dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                 }
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iCot + dem2 < _BanCo.NumCot; dem2++)
-                        if (_MangOCo[iDong, iCot + dem2].SoHuu == 1)
+                        if (MangOCo[iDong, iCot + dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                             break;
                         }
-                        else if (_MangOCo[iDong, iCot + dem2].SoHuu == 2)
+                        else if (MangOCo[iDong, iCot + dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                         }
@@ -850,24 +904,24 @@ namespace GAME_CARO_G4_TEAM
             }
             for (int dem = 1; dem < 5 && iCot - dem >= 0; dem++)
             {
-                if (_MangOCo[iDong, iCot - dem].SoHuu == 1)
+                if (MangOCo[iDong, iCot - dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                     break;
                 }
-                else if (_MangOCo[iDong, iCot - dem].SoHuu == 2)
+                else if (MangOCo[iDong, iCot - dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                 }
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iCot - dem2 >= 0; dem2++)
-                        if (_MangOCo[iDong, iCot - dem2].SoHuu == 1)
+                        if (MangOCo[iDong, iCot - dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                             break;
                         }
-                        else if (_MangOCo[iDong, iCot - dem2].SoHuu == 2)
+                        else if (MangOCo[iDong, iCot - dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                         }
@@ -904,24 +958,24 @@ namespace GAME_CARO_G4_TEAM
             int SoQuanDich2 = 0;
             for (int dem = 1; dem < 5 && iCot + dem < _BanCo.NumCot && iDong + dem < _BanCo.NumDong; dem++)
             {
-                if (_MangOCo[iDong + dem, iCot + dem].SoHuu == 1)
+                if (MangOCo[iDong + dem, iCot + dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                     break;
                 }
-                else if (_MangOCo[iDong + dem, iCot + dem].SoHuu == 2)
+                else if (MangOCo[iDong + dem, iCot + dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                 }
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iDong + dem2 < _BanCo.NumDong && iCot + dem2 < _BanCo.NumCot; dem2++)
-                        if (_MangOCo[iDong + dem2, iCot + dem2].SoHuu == 1)
+                        if (MangOCo[iDong + dem2, iCot + dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                             break;
                         }
-                        else if (_MangOCo[iDong + dem2, iCot + dem2].SoHuu == 2)
+                        else if (MangOCo[iDong + dem2, iCot + dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                         }
@@ -932,24 +986,24 @@ namespace GAME_CARO_G4_TEAM
             }
             for (int dem = 1; dem < 5 && iCot - dem >= 0 && iDong - dem >= 0; dem++)
             {
-                if (_MangOCo[iDong - dem, iCot - dem].SoHuu == 1)
+                if (MangOCo[iDong - dem, iCot - dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                     break;
                 }
-                else if (_MangOCo[iDong - dem, iCot - dem].SoHuu == 2)
+                else if (MangOCo[iDong - dem, iCot - dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                 }
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iCot - dem2 >= 0 && iDong - dem2 >= 0; dem2++)
-                        if (_MangOCo[iDong - dem2, iCot - dem2].SoHuu == 1)
+                        if (MangOCo[iDong - dem2, iCot - dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                             break;
                         }
-                        else if (_MangOCo[iDong - dem2, iCot - dem2].SoHuu == 2)
+                        else if (MangOCo[iDong - dem2, iCot - dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                         }
@@ -987,24 +1041,24 @@ namespace GAME_CARO_G4_TEAM
             int SoQuanDich2 = 0;
             for (int dem = 1; dem < 5 && iCot + dem < _BanCo.NumCot && iDong - dem > 0; dem++)
             {
-                if (_MangOCo[iDong - dem, iCot + dem].SoHuu == 1)
+                if (MangOCo[iDong - dem, iCot + dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                     break;
                 }
-                else if (_MangOCo[iDong - dem, iCot + dem].SoHuu == 2)
+                else if (MangOCo[iDong - dem, iCot + dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                 }
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iDong - dem2 >= 0 && iCot + dem2 < _BanCo.NumCot; dem2++)
-                        if (_MangOCo[iDong - dem2, iCot + dem2].SoHuu == 1)
+                        if (MangOCo[iDong - dem2, iCot + dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                             break;
                         }
-                        else if (_MangOCo[iDong - dem2, iCot + dem2].SoHuu == 2)
+                        else if (MangOCo[iDong - dem2, iCot + dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                         }
@@ -1015,24 +1069,24 @@ namespace GAME_CARO_G4_TEAM
             }
             for (int dem = 1; dem < 5 && iCot - dem >= 0 && iDong + dem < _BanCo.NumDong; dem++)
             {
-                if (_MangOCo[iDong + dem, iCot - dem].SoHuu == 1)
+                if (MangOCo[iDong + dem, iCot - dem].SoHuu == 1)
                 {
                     SoQuanTa++;
                     break;
                 }
-                else if (_MangOCo[iDong + dem, iCot - dem].SoHuu == 2)
+                else if (MangOCo[iDong + dem, iCot - dem].SoHuu == 2)
                 {
                     SoQuanDich++;
                 }
                 else // SoHuu = 0
                 {
                     for (int dem2 = 2; dem2 < 6 && iDong + dem2 < _BanCo.NumDong && iCot - dem2 >= 0; dem2++)
-                        if (_MangOCo[iDong + dem2, iCot - dem2].SoHuu == 1)
+                        if (MangOCo[iDong + dem2, iCot - dem2].SoHuu == 1)
                         {
                             SoQuanTa2++;
                             break;
                         }
-                        else if (_MangOCo[iDong + dem2, iCot - dem2].SoHuu == 2)
+                        else if (MangOCo[iDong + dem2, iCot - dem2].SoHuu == 2)
                         {
                             SoQuanDich2++;
                         }

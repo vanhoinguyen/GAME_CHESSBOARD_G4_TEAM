@@ -19,7 +19,7 @@ namespace GAME_CARO_G4_TEAM
            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+            Application.Run(new frmManHinhChinh());
         }
     }
 }

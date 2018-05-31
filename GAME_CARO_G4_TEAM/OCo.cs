@@ -12,7 +12,9 @@ namespace GAME_CARO_G4_TEAM
         public const int _ChieuRong = 25;//chiều rộng
         public const int _ChieuCao = 25;//chiều cao
 
-       
+
+
+
         private int _Dong;//dòng
         private int _Cot;//cột
 
@@ -57,7 +59,7 @@ namespace GAME_CARO_G4_TEAM
         }
 
 
-        private int _SoHuu;//sở hữu
+        private int _SoHuu;//sở hữu (server là 1, client là 2)
         public int SoHuu
         {
             get
@@ -70,10 +72,11 @@ namespace GAME_CARO_G4_TEAM
                 _SoHuu = value;
             }
         }
-        public OCo()
-        { }
 
-   
+        
+
+        public OCo()
+        { }   
         public OCo(int dong,int cot,Point vitri,int sohuu)
         {
             _Dong = dong;
