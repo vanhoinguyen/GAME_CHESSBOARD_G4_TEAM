@@ -11,9 +11,10 @@ namespace GAME_CARO_G4_TEAM
     {
         public const int _ChieuRong = 25;
         public const int _ChieuCao = 25;
-
         private int _Dong;
         private int _Cot;
+        private Point _ViTri;
+        private int _SoHuu;//sở hữu (server là 1, client là 2)
 
         public int Dong
         {
@@ -39,7 +40,7 @@ namespace GAME_CARO_G4_TEAM
                 _Cot = value;
             }
         }
-        private Point _ViTri;
+        
         public Point ViTri
         {
             get
@@ -53,7 +54,7 @@ namespace GAME_CARO_G4_TEAM
             }
         }
 
-        private int _SoHuu;//sở hữu (server là 1, client là 2)
+        
         public int SoHuu
         {
             get
@@ -75,7 +76,6 @@ namespace GAME_CARO_G4_TEAM
             _Cot = cot;
             _ViTri = vitri;
             _SoHuu = sohuu;
-
 
         }
 

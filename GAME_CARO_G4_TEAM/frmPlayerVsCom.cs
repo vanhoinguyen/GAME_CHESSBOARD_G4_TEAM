@@ -76,20 +76,24 @@ namespace GAME_CARO_G4_TEAM
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             carochess.Undo(grs,pnChessBoard.BackColor);
+            carochess.Undo(grs, pnChessBoard.BackColor);
         }
 
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            carochess.Redo(grs);
             carochess.Redo(grs);
         }
 
         private void btnUndo_Click(object sender, EventArgs e)
         {
             carochess.Undo(grs, pnChessBoard.BackColor);
+            carochess.Undo(grs, pnChessBoard.BackColor);
         }
 
         private void btnRedo_Click(object sender, EventArgs e)
         {
+            carochess.Redo(grs);
             carochess.Redo(grs);
         }
 

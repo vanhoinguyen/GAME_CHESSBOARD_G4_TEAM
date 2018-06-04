@@ -27,3 +27,17 @@ C:\Users\Tee Max\Desktop\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\G
 C:\Users\Tee Max\Desktop\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.csproj.CopyComplete
 C:\Users\Tee Max\Desktop\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.exe
 C:\Users\Tee Max\Desktop\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.pdb
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\bin\Release\GAME_CARO_G4_TEAM.exe.config
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\bin\Release\GAME_CARO_G4_TEAM.exe
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\bin\Release\GAME_CARO_G4_TEAM.pdb
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.csprojResolveAssemblyReference.cache
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.frmManHinhChinh.resources
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.frmPlayerVsCom.resources
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.frmPlayerVsPlayer.resources
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.NameInput.resources
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.Properties.Resources.resources
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.csproj.GenerateResource.cache
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.csproj.CoreCompileInputs.cache
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.csproj.CopyComplete
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.exe
+C:\Users\Tee Max\Documents\GitHub\GAME_CHESSBOARD_G4_TEAM\GAME_CARO_G4_TEAM\obj\Release\GAME_CARO_G4_TEAM.pdb

@@ -169,7 +169,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(6, 20, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(96, 700);
+            this.menuStrip1.Size = new System.Drawing.Size(85, 700);
             this.menuStrip1.TabIndex = 13;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -181,20 +181,20 @@
             this.fileToolStripMenuItem.Font = new System.Drawing.Font("UTM Ambrosia", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fileToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(89, 39);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(78, 39);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // chơiToolStripMenuItem
             // 
             this.chơiToolStripMenuItem.Name = "chơiToolStripMenuItem";
-            this.chơiToolStripMenuItem.Size = new System.Drawing.Size(158, 40);
+            this.chơiToolStripMenuItem.Size = new System.Drawing.Size(180, 40);
             this.chơiToolStripMenuItem.Text = "Chơi mới";
             this.chơiToolStripMenuItem.Click += new System.EventHandler(this.chơiToolStripMenuItem_Click);
             // 
             // thoátGameToolStripMenuItem
             // 
             this.thoátGameToolStripMenuItem.Name = "thoátGameToolStripMenuItem";
-            this.thoátGameToolStripMenuItem.Size = new System.Drawing.Size(158, 40);
+            this.thoátGameToolStripMenuItem.Size = new System.Drawing.Size(180, 40);
             this.thoátGameToolStripMenuItem.Text = "Thoát Game";
             this.thoátGameToolStripMenuItem.Click += new System.EventHandler(this.thoátGameToolStripMenuItem_Click);
             // 
