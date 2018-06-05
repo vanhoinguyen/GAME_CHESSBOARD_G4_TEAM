@@ -1,0 +1,7 @@
+﻿* Cài đặt:
+- Trước khi vào cài đặt ta vào thư mục font chọn UTM Ambrosia và nhấn Install để cài đặt font đã được cài đặt trong
+game.
+- Sau đó ta nhấn vào FileSetUp rồi lần lượt nhấn next để tiếp tục cho đến khi hoàn tất nhấn Finish để kết thúc.
+
+* Gỡ Cài đặt:
+- Vào Control Panel ->  Programs and Features -> Game Caro -> Uninstall 

@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GAME_CARO_G4_TEAM", "GAME_CARO_G4_TEAM\GAME_CARO_G4_TEAM.csproj", "{0D574C58-3E06-4253-A8B6-BF6C33209434}"
+EndProject
+Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "FileSetup", "FileSetup\FileSetup.aiproj", "{D884A433-15D9-4B4E-BFD4-878E7F356E0F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DefaultBuild|Any CPU = DefaultBuild|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D574C58-3E06-4253-A8B6-BF6C33209434}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D574C58-3E06-4253-A8B6-BF6C33209434}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D574C58-3E06-4253-A8B6-BF6C33209434}.DefaultBuild|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D574C58-3E06-4253-A8B6-BF6C33209434}.DefaultBuild|Any CPU.Build.0 = Debug|Any CPU
+		{0D574C58-3E06-4253-A8B6-BF6C33209434}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D574C58-3E06-4253-A8B6-BF6C33209434}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D884A433-15D9-4B4E-BFD4-878E7F356E0F}.Debug|Any CPU.ActiveCfg = DefaultBuild
+		{D884A433-15D9-4B4E-BFD4-878E7F356E0F}.Debug|Any CPU.Build.0 = DefaultBuild
+		{D884A433-15D9-4B4E-BFD4-878E7F356E0F}.DefaultBuild|Any CPU.ActiveCfg = DefaultBuild
+		{D884A433-15D9-4B4E-BFD4-878E7F356E0F}.DefaultBuild|Any CPU.Build.0 = DefaultBuild
+		{D884A433-15D9-4B4E-BFD4-878E7F356E0F}.Release|Any CPU.ActiveCfg = DefaultBuild
+		{D884A433-15D9-4B4E-BFD4-878E7F356E0F}.Release|Any CPU.Build.0 = DefaultBuild
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DD3531CD-E626-4753-8EDC-43A58068DAEA}
+	EndGlobalSection
+EndGlobal

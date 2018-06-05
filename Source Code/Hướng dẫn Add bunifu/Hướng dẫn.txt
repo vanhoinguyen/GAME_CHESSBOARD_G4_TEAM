@@ -1,0 +1,7 @@
+﻿* Để Add bunifu vào ta thực hiện các bước:
+- Vào Visual studio và vào Solution Explorer  
+- Nhấp phải vào References chọn Add References
+- Hộp thoại References Manager xuất hiện nhấn vào mục Browse
+- Chọn Browse 
+- Một hộp thoại xuất hiện ta tìm đến file Bunifu_UI_v1.52.dll và nhấn Add
+- Nhấn Ok để kết thúc.
